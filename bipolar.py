@@ -173,7 +173,7 @@ for channel in channel_list:
         print(f'slope = {slope}')
         ch_pass = 'FAIL'
 
-    if sys.argv[2] == 'y' or sys.argv[2] = 'Y':  # User requested pushing data to PVs 
+    if sys.argv[2] == 'y' or sys.argv[2] == 'Y':  # User requested pushing data to PVs 
         time.sleep(.1)
         caput(f'FDAS:{chassis_id}:SA:Ch{i+1:02d}:ASLO', slope)
         caput(f'FDAS:{chassis_id}:SA:Ch{i+1:02d}:AOFF', intercept)
