@@ -57,7 +57,7 @@ Photo 5 (Operator terminal): ![Operator terminal](./Figures/Photo5.JPG)
 procedure only performs one at a time. 
 - [D.4.3.5.2] Verify the calibration cable set is connected properly to the chassis to be calibrated. If not, move a pair of
 DB-37 connectors to the chassis to be calibrated.
-- [D.4.2.5.3] On the terminal, enter `python quartz_calib.py {nn} {y|n}`
+- [D.4.2.5.3] On the terminal, enter `quartz_calib {nn} {y|n}`
 
 
 Where nn is the chassis number (two digits) and **y|n** designates if the script
