@@ -37,11 +37,17 @@ calibrated. **Take care** to push straight into the chassis without undue force 
 Photo 4-a (Unterminated Quartz chassis): ![Quartz unterminated](./Figures/Photo4-a.JPG)  
 Photo 4-b (Terminated Quartz chassis): ![Quartz terminated](./Figures/Photo4-b.JPG)  
 
+### Network configuration
+
+- DVM IP address: `192.168.83.47`
+- Waveform generator IP address: `192.168.83.48`
+
+Connect to ports 47 and 48 of the network switch.
 
 ## D.4.2.4 Preparing for calibration : software
-- [D.4.2.4.1] Log on to the terminal located within the DAQ room and execute the following commands:  
-`> cd /usr/local/bin`  
-`> source /opt/venv/bin/activate`  
+- [D.4.2.4.1] Log on to the DAQ Server.
+  Either connect local keyboard and monitor as shown,
+  or remote via SSH to `192.168.83.100`.
 
 Photo 5 (Operator terminal): ![Operator terminal](./Figures/Photo5.JPG)
 
@@ -51,10 +57,19 @@ Photo 5 (Operator terminal): ![Operator terminal](./Figures/Photo5.JPG)
 procedure only performs one at a time. 
 - [D.4.3.5.2] Verify the calibration cable set is connected properly to the chassis to be calibrated. If not, move a pair of
 DB-37 connectors to the chassis to be calibrated.
-- [D.4.2.5.3] On the terminal, enter the following command:  
-`python quartz_calib.py {nn} {y|n}`  
-*where nn is the chassis number (two digits) and **y|n** designates if the script 
-will push the calibration constants directly to EPICS (typically 'y')*
+- [D.4.2.5.3] On the terminal, enter `python quartz_calib.py {nn} {y|n}`
+
+
+Where nn is the chassis number (two digits) and **y|n** designates if the script
+will push the calibration constants directly to EPICS.
+Set `y` for a real calibration, or `n` for a "practice" run.
+
+eg. for a real calibration of chassis 17.
+
+```
+quartz_calib 17 y
+```
+
 - [D.4.2.5.4] Monitor the terminal as the calibration procedure is carried out and verify it completes in full. If the
 "Push calibration constants direct to EPICS" option was chosen above, also verify on the OPI that the current
 calibration date and time are valid and reasonable (matching the current date and time).  
@@ -80,7 +95,7 @@ time-stamp on the OPI, or missing data files):
 control system SME for further analysis.
 
 ## D.4.2.6 Archive calibration data
-- [D.4.2.6.1] At the end of the calibration runs, copy the calibration data to the archive location as required by ATS SEC. 
+- [D.4.2.6.1] At the end of the calibration runs, copy the calibration data to the archive location as required by ATF SEC.
 
 ## D.4.2.7 Cleanup
 - [D.4.2.7.1] Upon the conclusion of the calibration session, disconnect the calibration cable set (being sure to leave the BNC 
