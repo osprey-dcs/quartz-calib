@@ -1,0 +1,7 @@
+cothread==2.20.0
+epicscorelibs==7.0.7.99.0.2
+epicsdbbuilder==1.5
+numpy==2.0.1
+pvxslibs==1.3.1
+setuptools-dso==2.10
+softioc==4.5.0

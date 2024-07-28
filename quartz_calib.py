@@ -8,10 +8,14 @@ import sys
 import time
 
 
-dmm_ip = '192.168.83.47'
+#dmm_ip = '192.168.83.47'
+#dmm_port = 5025
+dmm_ip = '127.0.0.1'
 dmm_port = 5025
-afg_ip = '192.168.83.48'
-afg_port = 5025
+#afg_ip = '192.168.83.48'
+#afg_port = 5025
+afg_ip = '127.0.0.1'
+afg_port = 5026
 
 num_adc_channels = 32
 
@@ -57,6 +61,7 @@ afg_sock.connect((afg_ip, afg_port))
 # Grab DMM info
 dmm_sock.send(cmd_idn)
 msg = dmm_sock.recv(1024).decode().strip().split(',')
+print(msg)
 dmm_mfr = msg[0]
 dmm_mdl = msg[1]
 dmm_sn = msg[2]
@@ -120,7 +125,7 @@ for channel in channel_list:
     dmm_sock.send(cmd_read)
     dmm_validate = float(dmm_sock.recv(1024).decode().strip())
     if abs(dmm_p-dmm_validate) > dmm_deadband:
-        print(f'DMM readback discrepency ({dmm} vs {dmm_validate}) on channel: {channel}')
+        print(f'DMM readback discrepency ({dmm_p} vs {dmm_validate}) on channel: {channel}')
         ch_pass = 'FAIL'
 
     ## Switch to negative
@@ -147,7 +152,7 @@ for channel in channel_list:
     dmm_sock.send(cmd_read)
     dmm_validate = float(dmm_sock.recv(1024).decode().strip())
     if abs(dmm_n-dmm_validate) > dmm_deadband:
-        print(f'DMM readback discrepency ({dmm} vs {dmm_validate}) on channel: {channel}')
+        print(f'DMM readback discrepency ({dmm_n} vs {dmm_validate}) on channel: {channel}')
         ch_pass = 'FAIL'
 
     # Calculate slope and intercept 
