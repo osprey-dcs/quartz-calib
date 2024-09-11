@@ -19,8 +19,8 @@ waveform = []
 waveforms = []
 pvlist = []
 
-#dmm_ip = '192.168.1.169'
-dmm_ip = '127.0.1.1'
+dmm_ip = '192.168.1.169'
+#dmm_ip = '127.0.1.1'
 dmm_port = 5025
 cmd_read = b'READ?\n'
 
