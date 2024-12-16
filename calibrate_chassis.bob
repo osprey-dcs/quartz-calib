@@ -1,0 +1,1460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2024-12-16 15:00:26 by atf-->
+<display version="2.0.0">
+  <name>Display</name>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <class>TITLE</class>
+    <text>Quartz chassis calibration control</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>550</width>
+    <height>31</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo Box</name>
+    <pv_name>FDAS:Calib:chassisID</pv_name>
+    <x>160</x>
+    <y>120</y>
+    <width>70</width>
+    <items>
+      <item>1</item>
+      <item>2</item>
+      <item>3</item>
+      <item>4</item>
+      <item>5</item>
+      <item>6</item>
+      <item>7</item>
+      <item>8</item>
+      <item>9</item>
+      <item>10</item>
+      <item>11</item>
+      <item>12</item>
+      <item>13</item>
+      <item>14</item>
+      <item>15</item>
+      <item>16</item>
+      <item>17</item>
+      <item>18</item>
+      <item>19</item>
+      <item>20</item>
+      <item>21</item>
+      <item>22</item>
+      <item>23</item>
+      <item>24</item>
+      <item>25</item>
+      <item>26</item>
+      <item>27</item>
+      <item>28</item>
+      <item>29</item>
+      <item>30</item>
+      <item>31</item>
+      <item>32</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_3</name>
+    <text>Chassis number</text>
+    <x>40</x>
+    <y>130</y>
+    <width>130</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_1</name>
+    <pv_name>FDAS:Calib:status_message</pv_name>
+    <x>200</x>
+    <y>70</y>
+    <width>330</width>
+    <height>30</height>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>$(pv_name)</pv_name>
+        <value>1</value>
+        <description>Start calibration</description>
+      </action>
+    </actions>
+    <pv_name>FDAS:Calib:start</pv_name>
+    <x>250</x>
+    <y>120</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_2</name>
+    <pv_name>FDAS:Calib:status_time</pv_name>
+    <x>30</x>
+    <y>70</y>
+    <width>160</width>
+    <height>30</height>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Check Box</name>
+    <pv_name>FDAS:Calib:testmode</pv_name>
+    <label>Test run</label>
+    <x>510</x>
+    <y>120</y>
+    <width>90</width>
+    <height>40</height>
+    <tooltip>When checked, calibration routine will NOT write to slope / offset values. For testing purposes.</tooltip>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)</name>
+    <pv_name>FDAS:Calib:stat1</pv_name>
+    <x>20</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_1</name>
+    <pv_name>FDAS:Calib:stat2</pv_name>
+    <x>40</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_2</name>
+    <pv_name>FDAS:Calib:stat3</pv_name>
+    <x>60</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_3</name>
+    <pv_name>FDAS:Calib:stat4</pv_name>
+    <x>80</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_16</name>
+    <pv_name>FDAS:Calib:stat5</pv_name>
+    <x>100</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_17</name>
+    <pv_name>FDAS:Calib:stat6</pv_name>
+    <x>120</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_18</name>
+    <pv_name>FDAS:Calib:stat7</pv_name>
+    <x>140</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_19</name>
+    <pv_name>FDAS:Calib:stat8</pv_name>
+    <x>160</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_20</name>
+    <pv_name>FDAS:Calib:stat9</pv_name>
+    <x>190</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_21</name>
+    <pv_name>FDAS:Calib:stat10</pv_name>
+    <x>210</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_22</name>
+    <pv_name>FDAS:Calib:stat11</pv_name>
+    <x>230</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_23</name>
+    <pv_name>FDAS:Calib:stat12</pv_name>
+    <x>250</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_24</name>
+    <pv_name>FDAS:Calib:stat13</pv_name>
+    <x>270</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_25</name>
+    <pv_name>FDAS:Calib:stat14</pv_name>
+    <x>290</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_26</name>
+    <pv_name>FDAS:Calib:stat15</pv_name>
+    <x>310</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_27</name>
+    <pv_name>FDAS:Calib:stat16</pv_name>
+    <x>330</x>
+    <y>200</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_4</name>
+    <text>1:8</text>
+    <x>100</x>
+    <y>180</y>
+    <width>30</width>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_5</name>
+    <text>9:16</text>
+    <x>260</x>
+    <y>180</y>
+    <width>30</width>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_44</name>
+    <pv_name>FDAS:Calib:stat17</pv_name>
+    <x>20</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_45</name>
+    <pv_name>FDAS:Calib:stat18</pv_name>
+    <x>40</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_46</name>
+    <pv_name>FDAS:Calib:stat19</pv_name>
+    <x>60</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_47</name>
+    <pv_name>FDAS:Calib:stat20</pv_name>
+    <x>80</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_48</name>
+    <pv_name>FDAS:Calib:stat21</pv_name>
+    <x>100</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_49</name>
+    <pv_name>FDAS:Calib:stat22</pv_name>
+    <x>120</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_50</name>
+    <pv_name>FDAS:Calib:stat23</pv_name>
+    <x>140</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_51</name>
+    <pv_name>FDAS:Calib:stat24</pv_name>
+    <x>160</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_52</name>
+    <pv_name>FDAS:Calib:stat25</pv_name>
+    <x>190</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_53</name>
+    <pv_name>FDAS:Calib:stat26</pv_name>
+    <x>210</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_54</name>
+    <pv_name>FDAS:Calib:stat27</pv_name>
+    <x>230</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_55</name>
+    <pv_name>FDAS:Calib:stat28</pv_name>
+    <x>250</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_56</name>
+    <pv_name>FDAS:Calib:stat29</pv_name>
+    <x>270</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_57</name>
+    <pv_name>FDAS:Calib:stat30</pv_name>
+    <x>290</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_58</name>
+    <pv_name>FDAS:Calib:stat31</pv_name>
+    <x>310</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_59</name>
+    <pv_name>FDAS:Calib:stat32</pv_name>
+    <x>330</x>
+    <y>230</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_6</name>
+    <text>17:24</text>
+    <x>100</x>
+    <y>250</y>
+    <width>30</width>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_7</name>
+    <text>25:32</text>
+    <x>260</x>
+    <y>250</y>
+    <width>30</width>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+</display>
