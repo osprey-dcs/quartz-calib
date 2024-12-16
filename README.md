@@ -14,3 +14,5 @@ the bob file is the css screen to interact with the ioc (start the calibration r
 (In progress screen): ![in progress](./Figures/screen2.png)
 
 (Successful calibration): ![success](./Figures/screen3.png)
+
+(Failed calibration):  ![fail](./Figures/screen4.png)
