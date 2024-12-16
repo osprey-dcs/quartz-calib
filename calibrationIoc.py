@@ -197,9 +197,13 @@ def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
         pv_status_leds[ch_id-1].set(3)
 
     pvreport(time_pv, message_pv, 'Calculating slope and offset')
+    for pv in pv_status_leds:
+        pv.set(1)
+    time.sleep(1)
 
     # Calculate linear fit for each channel
     for ch in range(0, len(channel_list)):
+
         # Calculate slope and intercept
         x1 = float(ch_pos[ch].mean(0))
         x2 = float(ch_neg[ch].mean(0))
@@ -211,15 +215,21 @@ def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
         if abs(float(adc_wave_p.mean(0))) - expected_count > count_tolerance:
             pvreport(time_pv, message_pv, f'adc_wave_p boundary violation')
             ch_pass = 'FAIL'
+            pv_status_leds[ch].set(2)
         elif abs(float(adc_wave_n.mean(0))) - expected_count > count_tolerance:
             pvreport(time_pv, message_pv, f'adc_wave_n boundary violation')
             ch_pass = 'FAIL'
+            pv_status_leds[ch].set(2)
         elif abs(intercept) > offset_tolerance:
             pvreport(time_pv, message_pv, f'intercept boundary violation = {intercept}')
             ch_pass = 'FAIL'
+            pv_status_leds[ch].set(2)
         elif abs(slope - expected_slope) > slope_tolerance:
             pvreport(time_pv, message_pv, f'slope boundary violation = {slope}')
             ch_pass = 'FAIL'
+            pv_status_leds[ch].set(2)
+        else:
+            pv_status_leds[ch].set(3)
 
         if push_data:  # User requested pushing data to PVs
             pvreport(time_pv, message_pv,'Updating slope and offset on PVs')
