@@ -1,6 +1,11 @@
-This initial version was done on location as a proof-of-concept and design prompt to nail down specifics.
+First go at an ioc based calibration routine
 
-It is currently invoked from the command line with two arguments - the first being the chassis number (two digits), and the second a "y" or "n" (yes/no) to tell the tool if it should push the calibration data directly to the PVs.
+be sure the IP numbers are appropriate for the particular DMM and AFG (see source code)
 
-In it's current incarnation, I started it after activating the virtual environment on the 83.100 server located at /opt/venv (">source /opt/venv/bin/activate")
+invoke the virtual environment 
+
+invoke the ioc with `python calibrateIoc.py`
+
+the bob file is the css screen to interact with the ioc (start the calibration routine)
+
 
