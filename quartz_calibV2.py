@@ -8,9 +8,9 @@ import sys
 import time
 
 
-dmm_ip = '192.168.83.47'
+dmm_ip = '192.168.79.97'
 dmm_port = 5025
-afg_ip = '192.168.83.48'
+afg_ip = '192.168.79.98'
 afg_port = 5025
 
 num_adc_channels = 32
@@ -19,10 +19,8 @@ cmd_idn = b'*IDN?\n'
 cmd_read = b'READ?\n'
 cmd_appl_read = b'VOLT:RANGE:AUTO?\n'
 
-# For reasons unexplained at this point, the function generator outputs a DC
-# voltage twice of that which is commanded.
-cmd_set_pos = b'APPL:DC DEF, DEF, 4.5\n'    # +9V
-cmd_set_neg = b'APPL:DC DEF, DEF, -4.5\n'   # -9V
+cmd_set_pos = b'APPL:DC DEF, DEF, 9.0\n'    # +9V
+cmd_set_neg = b'APPL:DC DEF, DEF, -9.0\n'   # -9V
 cmd_set_zero = b'APPL:DC DEF, DEF, 0\n'     #  0V
 
 dmm_deadband = 0.01
@@ -128,7 +126,7 @@ for channel in channel_list:
     dmm_sock.send(cmd_read)
     dmm_validate = float(dmm_sock.recv(1024).decode().strip())
     if abs(dmm_p-dmm_validate) > dmm_deadband:
-        print(f'DMM readback discrepency ({dmm} vs {dmm_validate}) on channel: {channel}')
+        print(f'DMM readback discrepency ({dmm_p} vs {dmm_validate}) on channel: {channel}')
         ch_pass = 'FAIL'
         break
     dmm_pos.append(dmm_p)
@@ -165,7 +163,7 @@ for channel in channel_list:
     dmm_sock.send(cmd_read)
     dmm_validate = float(dmm_sock.recv(1024).decode().strip())
     if abs(dmm_n-dmm_validate) > dmm_deadband:
-        print(f'DMM readback discrepency ({dmm} vs {dmm_validate}) on channel: {channel}')
+        print(f'DMM readback discrepency ({dmm_n} vs {dmm_validate}) on channel: {channel}')
         ch_pass = 'FAIL'
         break
     dmm_neg.append(dmm_n)
@@ -201,13 +199,13 @@ for ch in range(0, len(channel_list)):
 
     if sys.argv[2] == 'y' or sys.argv[2] == 'Y':  # User requested pushing data to PVs 
         time.sleep(.1)
-        caput(f'FDAS:{chassis_id}:SA:Ch{ch:02d}:ASLO', slope)
-        caput(f'FDAS:{chassis_id}:SA:Ch{ch:02d}:AOFF', intercept)
+        caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:ASLO', slope)
+        caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:AOFF', intercept)
         # Write time-stamp to PV for last calibration, or zero if calibration failed
         if ch_pass != 'FAIL':
-            caput(f'FDAS:{chassis_id}:SA:Ch{ch:02d}:TCAL', time.time())
+            caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:TCAL', time.time())
         else:
-            caput(f'FDAS:{chassis_id}:SA:Ch{ch:02d}:TCAL', 0)
+            caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:TCAL', 0)
 
     calib_pairs.append((dmm_p, dmm_n, float(adc_wave_p.mean(0)), float(adc_wave_n.mean(0)), slope, intercept, ch_pass))
     r_file.write(f'{ch+1}, {dmm_p}')

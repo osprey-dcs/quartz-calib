@@ -4,9 +4,9 @@ import sys
 import time
 
 
-dmm_ip = '192.168.83.47'
+dmm_ip = '192.168.79.97'
 dmm_port = 5025
-afg_ip = '192.168.83.48'
+afg_ip = '192.168.79.98'
 afg_port = 5025
 
 cmd_idn = b'*IDN?\n'
@@ -15,7 +15,7 @@ cmd_read = b'READ?\n'
 # For reasons unexplained at this point, the function generator outputs a DC
 # voltage twice of that which is commanded.
 cmd_set = b'APPL:DC DEF, DEF, '    # 
-cmd_sin = b'APPL:SIN 100, 9, 0\n'    # 
+cmd_sin = b'APPL:SIN 120, 9, 0\n'    # 
 
 # arg[1] = voltage
 

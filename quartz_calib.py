@@ -10,12 +10,12 @@ import time
 
 #dmm_ip = '192.168.83.47'
 #dmm_port = 5025
-dmm_ip = '127.0.0.1'
+dmm_ip = '192.168.79.97'
 dmm_port = 5025
 #afg_ip = '192.168.83.48'
 #afg_port = 5025
-afg_ip = '127.0.0.1'
-afg_port = 5026
+afg_ip = '192.168.79.98'
+afg_port = 5025
 
 num_adc_channels = 32
 
@@ -25,9 +25,9 @@ cmd_appl_read = b'VOLT:RANGE:AUTO?\n'
 
 # For reasons unexplained at this point, the function generator outputs a DC
 # voltage twice of that which is commanded.
-cmd_set_pos = b'APPL:DC DEF, DEF, 4.5\n'    # +9V
-cmd_set_neg = b'APPL:DC DEF, DEF, -4.5\n'   # -9V
-cmd_set_zero = b'APPL:DC DEF, DEF, 0\n'     #  0V
+cmd_set_pos = b'APPL:DC DEF, DEF, 9.0\n'    # +9V
+cmd_set_neg = b'APPL:DC DEF, DEF, -9.0\n'   # -9V
+cmd_set_zero = b'APPL:DC DEF, DEF, 0\n'     # 0V
 
 dmm_deadband = 0.01
 calib_date = date.today()
