@@ -1,5 +1,6 @@
 import cothread
-from cothread.catools import *
+#from cothread.catools import *
+from p4p.client.cothread import Context
 from datetime import date, datetime
 import math
 import numpy
@@ -7,26 +8,28 @@ from socket import *
 from softioc import softioc, builder, alarm
 import sys
 import time
+import logging
 
-#dmm_ip = '192.168.83.47'       # ATF equipment
-#afg_ip = '192.168.83.48'       # ATF equipment
-dmm_ip = '192.168.79.97'        # Development equipment
-afg_ip = '192.168.79.98'        # Development equipment
-dmm_port = 5025
-afg_port = 5025
+_log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+
+# ATF equipment
+dmm_addr = ('192.168.83.47', 5025)
+afg_addr = ('192.168.83.48', 5025)
+# Development equipment
+#dmm_addr = ('192.168.79.97', 5025)
+#afg_addr = ('192.168.79.98', 5025)
 
 num_adc_channels = 32
 
+ctxt = Context(nt=False) # PVA client
+
 def pvreport(time_pv, status_pv, message):
+    _log.info('%s', message)
     current_date = date.today()
     current_time = datetime.now().strftime('%H:%M:%S')
     time_pv.set(f'{current_date} {current_time}')
-    try:
-        status_pv.set(message[:39])
-
-    except Exception as e:
-        print(f'Found exception {e} - in pvreport function. Terminating IOC')
-        exit(-1)
+    status_pv.set(message[:39])
 
 
 def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
@@ -50,34 +53,29 @@ def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
     slope_tolerance = 1e-6  # largest slope variation we tolerate
 
     outfile = f'{calib_date}_{file_time}_cal_{chassis_id}_bipolar'
-    dmm_sock = socket(AF_INET, SOCK_STREAM)
-    dmm_sock.connect((dmm_ip, dmm_port))
-    afg_sock = socket(AF_INET, SOCK_STREAM)
-    afg_sock.connect((afg_ip, afg_port))
+    dmm_sock = create_connection(dmm_addr)
+    dmm_rx = dmm_sock.makefile('rb', buffering=0)
+    afg_sock = create_connection(afg_addr)
+    afg_rx = afg_sock.makefile('rb', buffering=0)
 
     for pv in pv_status_leds:
         pv.set(1)
 
     # Grab DMM info
-    dmm_sock.send(cmd_idn)
-    msg = dmm_sock.recv(1024).decode().strip().split(',')
-    dmm_mfr = msg[0]
-    dmm_mdl = msg[1]
-    dmm_sn = msg[2]
-    dmm_fw = msg[3]
-    #print(f'dmm info : {dmm_mfr} | {dmm_mdl} | {dmm_sn} | {dmm_fw}')
+    dmm_sock.sendall(cmd_idn)
+    # eg. "Agilent Technologies,34410A,MY47024415,2.35-2.35-0.09-46-09"
+    msg = dmm_rx.readline(1024).decode().strip().split(',')
+    dmm_mfr, dmm_mdl, dmm_sn, dmm_fw = msg[:4]
 
     # grab AFG info
-    afg_sock.send(cmd_idn)
-    msg = afg_sock.recv(1024)
+    afg_sock.sendall(cmd_idn)
+    msg = afg_rx.readline(1024)
     #print(f'afg info : {msg.decode().strip()}')
-    time.sleep(.5)
 
     # Set AFG to positive voltage
-    afg_sock.send(cmd_set_pos)
-    time.sleep(.5)
+    afg_sock.sendall(cmd_set_pos)
+#    cothread.Sleep(.5)
 
-    channel_list = []
     dmm_list = []
     adc_list = []
     calib_pairs = []
@@ -86,15 +84,10 @@ def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
     dmm_pos = []
     dmm_neg = []
 
-    # Generate a pv list
-    for i in range(num_adc_channels):
-        channel_list.append(f'FDAS:{chassis_id}:SA:Ch{i + 1:02d}_')
-
     try:
         r_file = open(f'{outfile}_raw.csv', 'w')
     except Exception as e:
-        print(f'Error writing file: {e}')
-        exit(-1)
+        raise RuntimeError(f'Error writing file: {e}')
 
     r_file.write(f'[BIPOLAR MODE] Calibrating chassis: {chassis_id}\n')
     r_file.write(f'Date and time: {calib_date} {calib_time}\n')
@@ -102,121 +95,94 @@ def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
     r_file.write(f'DMM serial number: {dmm_sn}\n')
     r_file.write(f'DMM firmware ver : {dmm_fw}\n')
     r_file.write('ch, volts, waveform\n')
-    i = 0
 
     # Set to positive voltage
     pvreport(time_pv, message_pv, 'Sourcing positive voltage')
     # print('Switching to positive excitation voltage')
-    afg_sock.send(cmd_set_pos)  # Set function generator to positive voltage
-    # Wait until adc shows proper sign
-    wait_timer = 0
-    while float(caget(channel_list[0]).mean(0)) < 4000:
-        time.sleep(.2)
-        wait_timer += 1
-        if wait_timer > 50:  # Wait up to 10 seconds
-            pvreport(time_pv, message_pv, '**ABORT**: ADC positive input not high enough - check cable')
-            ch_pass = 'FAIL'
-            break
-    time.sleep(1)
+    afg_sock.sendall(cmd_set_pos)  # Set function generator to positive voltage
+    # TODO: query to confirm setting applied
 
-    for channel in channel_list:
-        ch_pass = 'Pass'
-        ch_id = channel_list.index(channel)+1
-        dmm_sock.send(cmd_read)
-        dmm_p = float(dmm_sock.recv(1024).decode().strip())
-        pv_status_leds[ch_id-1].set(1)
-        if not math.isfinite(dmm_p):
-            pvreport(time_pv, message_pv,f'**ABORT** error reading voltage: {chassis_id}, ch {ch_id}')
-            ch_pass = 'FAIL'
-            pv_status_leds[ch_id - 1].set(2)
-            break
-        adc_wave_p = caget(channel)
-        if not math.isfinite(adc_wave_p.mean(0)):
-            pvreport(time_pv, message_pv,f'**ABORT** error reading waveform: {chassis_id}, ch {ch_id}')
-            ch_pass = 'FAIL'
-            pv_status_leds[ch_id - 1].set(2)
-            break
-        dmm_sock.send(cmd_read)
-        dmm_validate = float(dmm_sock.recv(1024).decode().strip())
-        if abs(dmm_p - dmm_validate) > dmm_deadband:
-            pvreport(time_pv, message_pv,
-                     f'**ABORT** dmm ({dmm_p} vs {dmm_validate}) on: {chassis_id}, ch {ch_id}')
-            ch_pass = 'FAIL'
-            pv_status_leds[ch_id - 1].set(2)
-            break
-        dmm_pos.append(dmm_p)
-        ch_pos.append(adc_wave_p)
-        pvreport(time_pv, message_pv, f'Recording ch {ch_id} positive voltage')
-        pv_status_leds[ch_id-1].set(3)
-        time.sleep(.1)
-    time.sleep(1)
+    # Wait until adc to settle at desired range
+    def settle(lower, upper):
+        assert lower < upper, (lower, upper)
+        pvname = f'FDAS:{chassis_id}:SA:V'
+        for n in range(10):
+            cothread.Sleep(0.5)
+            # fetch all traces
+            grp = ctxt.get(pvname)
+            traces = numpy.concatenate(
+                [grp.value[f'Ch{ch+1:02d}'][:,None] for ch in range(num_adc_channels)],
+                axis=1
+            )
+            assert traces.shape==(10000, 32), traces.shape
+            pvreport(time_pv, message_pv, f'Settle {n} {traces.min()} {traces.mean()} {traces.std(0).max()} {traces.max()}')
+            if traces.std(0).max() > 38: # observed noise level ~30 counts
+                continue # TODO: better to fit each trace to a line and check slope against upper bound
+            if traces.mean() > lower and traces.mean() < upper:
+                return traces
+
+        pvreport(time_pv, message_pv, '**ABORT**: ADC does not settle  - check cable')
+        raise RuntimeError('ADC does not settle.  Unable to proceed')
+
+    ch_pos = settle(6170000, 6180000)
+    print('settled pos ADC', ch_pos.mean(0))
+
+    def dmm_read():
+        vals = [None, None]
+        for i in range(2):
+            dmm_sock.sendall(cmd_read)
+            vals[i] = float(dmm_rx.readline(1024).decode().strip())
+            if not math.isfinite(vals[i]):
+                pvreport(time_pv, message_pv,f'**ABORT** error reading DMM: {chassis_id}')
+                raise RuntimeError('DMM readout error.  Unable to proceed')
+
+        if numpy.abs(numpy.diff(vals))[0] > dmm_deadband:
+            raise RuntimeError('DMM does not settle.  Unable to proceed')
+        return vals[1]
+
+    dmm_p = dmm_read()
+    print('settled pos DMM', dmm_p)
+
+    for ch_id in range(num_adc_channels):
+        pvreport(time_pv, message_pv, f'Recording ch {ch_id+1} positive voltage')
+        pv_status_leds[ch_id].set(3)
 
     pvreport(time_pv, message_pv, 'Sourcing negative voltage')
-    time.sleep(.5)
 
     for pv in pv_status_leds:
         pv.set(1)
     ## Switch to negative
-    afg_sock.send(cmd_set_neg)  # Set function generator to negative voltage
-    # Wait until adc shows proper sign
-    while float(caget(channel).mean(0)) > 4000:
-        time.sleep(.2)
-        wait_timer += 1
-        if wait_timer > 50:  # Wait up to 10 seconds
-            pvreport(time_pv, message_pv, '**ABORT**: ADC negative input not high enough - check cable')
-            ch_pass = 'FAIL'
-        break
-    time.sleep(1)
+    afg_sock.sendall(cmd_set_neg)  # Set function generator to negative voltage
+    ch_neg = settle(-6180000, -6170000)
+    print('settled neg ADC', ch_neg.mean(0))
 
-    for channel in channel_list:
-        ch_id = channel_list.index(channel)+1
-        dmm_sock.send(cmd_read)
-        dmm_n = float(dmm_sock.recv(1024).decode().strip())
-        if not math.isfinite(dmm_n):
-            pvreport(time_pv, message_pv,f'**ABORT** error reading voltage: {chassis_id}, ch {ch_id}')
-            ch_pass = 'FAIL'
-            pv_status_leds[ch_id - 1].set(2)
-            break
-        adc_wave_n = caget(channel)
-        if not math.isfinite(adc_wave_n.mean(0)):
-            pvreport(time_pv, message_pv,f'**ABORT** error reading waveform: {chassis_id}, ch {ch_id}')
-            ch_pass = 'FAIL'
-            pv_status_leds[ch_id - 1].set(2)
-            break
-        dmm_sock.send(cmd_read)
-        dmm_validate = float(dmm_sock.recv(1024).decode().strip())
-        if abs(dmm_n - dmm_validate) > dmm_deadband:
-            pvreport(time_pv, message_pv,
-                     f'**ABORT** dmm ({dmm_n} vs {dmm_validate}) on: {chassis_id}, ch {ch_id}')
-            ch_pass = 'FAIL'
-            pv_status_leds[ch_id - 1].set(2)
-            break
-        dmm_neg.append(dmm_n)
-        ch_neg.append(adc_wave_n)
-        pvreport(time_pv, message_pv, f'Channel {ch_id} negative voltage acquired')
-        pv_status_leds[ch_id-1].set(3)
+    dmm_n = dmm_read()
+    print('settled neg DMM', dmm_n)
+
+    for ch in range(num_adc_channels):
+        pvreport(time_pv, message_pv, f'Channel {ch_id+1} negative voltage acquired')
+        pv_status_leds[ch_id].set(3)
 
     pvreport(time_pv, message_pv, 'Calculating slope and offset')
     for pv in pv_status_leds:
         pv.set(1)
-    time.sleep(1)
 
     # Calculate linear fit for each channel
-    for ch in range(0, len(channel_list)):
+    x1 = ch_pos.mean(0) # [nChan]
+    x2 = ch_neg.mean(0)
+    y1 = dmm_p
+    y2 = dmm_n
 
+    for ch in range(num_adc_channels):
         # Calculate slope and intercept
-        x1 = float(ch_pos[ch].mean(0))
-        x2 = float(ch_neg[ch].mean(0))
-        y1 = dmm_pos[ch]
-        y2 = dmm_neg[ch]
-        slope, intercept = numpy.polyfit([x1, x2], [y1, y2], 1)
+        slope, intercept = numpy.polyfit([x1[ch], x2[ch]], [y1, y2], 1)
 
         # Boundary checks
-        if abs(float(adc_wave_p.mean(0))) - expected_count > count_tolerance:
+        if abs(float(x1[ch])) - expected_count > count_tolerance:
             pvreport(time_pv, message_pv, f'adc_wave_p boundary violation')
             ch_pass = 'FAIL'
             pv_status_leds[ch].set(2)
-        elif abs(float(adc_wave_n.mean(0))) - expected_count > count_tolerance:
+        elif abs(float(x2[ch])) - expected_count > count_tolerance:
             pvreport(time_pv, message_pv, f'adc_wave_n boundary violation')
             ch_pass = 'FAIL'
             pv_status_leds[ch].set(2)
@@ -233,26 +199,31 @@ def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
 
         if push_data:  # User requested pushing data to PVs
             pvreport(time_pv, message_pv,'Updating slope and offset on PVs')
-            time.sleep(.1)
-            caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:ASLO', slope)
-            caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:AOFF', intercept)
+            cothread.Sleep(.1)
+            ####### TODO
+            #caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:ASLO', slope)
+            #caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:AOFF', intercept)
             # Write time-stamp to PV for last calibration, or zero if calibration failed
-            if ch_pass != 'FAIL':
-                caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:TCAL', time.time())
-            else:
-                caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:TCAL', 0)
+            #if ch_pass != 'FAIL':
+            #    caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:TCAL', time.time())
+            #else:
+            #    caput(f'FDAS:{chassis_id}:SA:Ch{ch+1:02d}:TCAL', 0)
+        else:
+            print(f'caput FDAS:{chassis_id}:SA:Ch{ch+1:02d}:ASLO', slope)
+            print(f'caput FDAS:{chassis_id}:SA:Ch{ch+1:02d}:AOFF', intercept)
+            print(f'caput FDAS:{chassis_id}:SA:Ch{ch+1:02d}:TCAL', time.time() if ch_pass != 'FAIL' else 0)
 
         calib_pairs.append(
-            (dmm_p, dmm_n, float(adc_wave_p.mean(0)), float(adc_wave_n.mean(0)), slope, intercept, ch_pass))
+            (dmm_p, dmm_n, float(x1[ch]), float(x2[ch]), slope, intercept, ch_pass))
         r_file.write(f'{ch + 1}, {dmm_p}')
-        for m in adc_wave_p:
+        for m in ch_pos[:,ch]:
             r_file.write(f', {m}')
         r_file.write(f'\n')
         r_file.write(f'{ch + 1}, {dmm_n}')
-        for m in adc_wave_n:
+        for m in ch_neg[:,ch]:
             r_file.write(f', {m}')
         r_file.write(f'\n')
-        time.sleep(.1)
+
         if ch_pass != 'Pass':
             overall_pass = False
     r_file.close()
@@ -274,9 +245,9 @@ def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
                     o_file.write(f',{member}')
                 o_file.write(f'\n')
     except Exception as e:
-        print(f'Error writing file: {e}')
+        log.exception('Error writing file: %r', e)
     o_file.close()
-    afg_sock.send(cmd_set_zero)
+    afg_sock.sendall(cmd_set_zero)
 
     if overall_pass:
         # print(f'Calibration of chassis {chassis_id} passed on {calib_date} at {calib_time}')
@@ -313,20 +284,23 @@ if __name__ == '__main__':
             pv.set(0)
         while True:
             if pv_start_calibration.get() != 0:
-                pv_start_calibration.set(0)
-                calib_date = date.today()
-                chassis_id = int(pv_chassis_id.get())
-                pvreport(pv_status_timedate, pv_status_message, f'Beginning cal of chassis {chassis_id}')
-                if pv_test_mode.get() != 1:
-                    push_data = True
-                else:
-                    push_data = False
-                rval = runcalibration(f'{chassis_id:02}', push_data, pv_status_timedate, pv_status_message,
-                                      pv_status_leds)
-                end_time = datetime.now().strftime('%H:%M:%S')
-                pv_status_timedate.set(f'{calib_date} {end_time}')
-                pvreport(pv_status_timedate, pv_status_message,
-                         f'Chassis {chassis_id:02} calibration result : {rval}')
+                try:
+                    calib_date = date.today()
+                    chassis_id = int(pv_chassis_id.get())
+                    pvreport(pv_status_timedate, pv_status_message, f'Beginning cal of chassis {chassis_id}')
+                    push_data = pv_test_mode.get() != 1
+                    rval = runcalibration(f'{chassis_id:02}', push_data, pv_status_timedate, pv_status_message,
+                                        pv_status_leds)
+                    end_time = datetime.now().strftime('%H:%M:%S')
+                    pv_status_timedate.set(f'{calib_date} {end_time}')
+                    pvreport(pv_status_timedate, pv_status_message,
+                            f'Chassis {chassis_id:02} calibration result : {rval}')
+                except Exception as e:
+                    pvreport(pv_status_timedate, pv_status_message,
+                            f'Chassis {chassis_id:02} exc : {e}')
+                    _log.exception('Unhandled exception: %s', e)
+                finally:
+                    pv_start_calibration.set(0)
             cothread.Sleep(1)
 
 

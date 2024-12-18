@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--Saved on 2024-12-16 15:00:26 by atf-->
 <display version="2.0.0">
-  <name>Display</name>
+  <name>Calib</name>
   <widget type="label" version="2.0.0">
     <name>Label</name>
     <class>TITLE</class>
