@@ -7,6 +7,7 @@ from socket import *
 import sys
 import time
 
+oper_id = 'atf'
 
 dmm_ip = '192.168.83.47'
 dmm_port = 5025
@@ -26,9 +27,10 @@ cmd_set_neg = b'APPL:DC DEF, DEF, -4.5\n'   # -9V
 cmd_set_zero = b'APPL:DC DEF, DEF, 0\n'     #  0V
 
 dmm_deadband = 0.01
-calib_date = date.today()
-calib_time = datetime.now().strftime('%H:%M:%S')
-file_time = datetime.now().strftime('%H-%M-%S')
+now = datetime.now()
+calib_date = now.date()
+calib_time = now.strftime('%H:%M:%S')
+file_time = now.strftime('%H-%M-%S')
 
 
 overall_pass = True         # Goes False if any channel fails calibration
@@ -48,6 +50,9 @@ if len(sys.argv) != 3:
 
 chassis_id = sys.argv[1]
 outfile = f'{calib_date}_{file_time}_cal_{chassis_id}_bipolar'
+
+samp_rate = caget('FDAS:ACQ:rate.RVAL') # Hz
+adc_serno = caget(f'FDAS:{chassis_id}:Quartz:serno')
 
 dmm_sock = socket(AF_INET, SOCK_STREAM)
 dmm_sock.connect((dmm_ip, dmm_port))
@@ -87,28 +92,34 @@ except Exception as e:
         print(f'Error writing file: {e}')
         exit(-1)
 
+common_hdr = 'time, oper_id, samp_rate, adc_serno, dmm_mfr, dmm_sn, dmm_fw, chassis'
+common_row = f'{now.timestamp()}, "{oper_id}", {samp_rate}, {adc_serno}, "{dmm_mfr} {dmm_mdl}", "{dmm_sn}", "{dmm_fw}", {chassis_id}'
+
 r_file.write(f'[BIPOLAR MODE] Calibrating chassis: {chassis_id}\n')
 r_file.write(f'Date and time: {calib_date} {calib_time}\n')
+r_file.write(f'Quartz S/N: {adc_serno}\n')
+r_file.write(f'Sample Rate: {samp_rate} Hz\n')
 r_file.write(f'DMM Model: {dmm_mfr} {dmm_mdl}\n')
 r_file.write(f'DMM serial number: {dmm_sn}\n')
 r_file.write(f'DMM firmware ver : {dmm_fw}\n')
-r_file.write('ch, volts, waveform\n')
+r_file.write(f'{common_hdr}, ch, volts, waveform\n')
 i = 0
 for channel in channel_list:
     print(f'\n\n---------------\nCalibrating {channel}:')
     ch_pass = 'Pass'
-    afg_sock.send(cmd_set_pos)  # Set function generator to positive voltage
+    afg_sock.sendall(cmd_set_pos)  # Set function generator to positive voltage
+    time.sleep(1.0)
     # Wait until adc shows proper sign
     wait_timer = 0
-    while float(caget(channel).mean(0)) < 4000:
-        time.sleep(.2)
+    while float(caget(channel).min(0)) < 40000:
+        time.sleep(.5)
         wait_timer += 1
-        if wait_timer > 50: # Wait up to 10 seconds
+        if wait_timer > 1000:
             print(f'ADC input not high enough - is the cable connected?')
             ch_pass = 'FAIL'
             break
     time.sleep(1)
-    dmm_sock.send(cmd_read)
+    dmm_sock.sendall(cmd_read)
     dmm_p = float(dmm_sock.recv(1024).decode().strip())
     if not math.isfinite(dmm_p):
         print(f'**ERROR Reading voltage**\n** CALIBRATION STOPPED **\n** Chassis {chassis_id} NOT calibrated')
@@ -117,24 +128,24 @@ for channel in channel_list:
     if not math.isfinite(adc_wave_p.mean(0)):
         print(f'**ERROR Reading waveform**\n** CALIBRATION STOPPED **\n** Chassis {chassis_id} NOT calibrated')
         ch_pass = 'FAIL'
-    dmm_sock.send(cmd_read)
+    dmm_sock.sendall(cmd_read)
     dmm_validate = float(dmm_sock.recv(1024).decode().strip())
     if abs(dmm_p-dmm_validate) > dmm_deadband:
         print(f'DMM readback discrepency ({dmm} vs {dmm_validate}) on channel: {channel}')
         ch_pass = 'FAIL'
 
     ## Switch to negative
-    afg_sock.send(cmd_set_neg)  # Set function generator to negative voltage
+    afg_sock.sendall(cmd_set_neg)  # Set function generator to negative voltage
     # Wait until adc shows proper sign
-    while float(caget(channel).mean(0)) > 4000:
-        time.sleep(.2)
+    while float(caget(channel).max(0)) > -40000:
+        time.sleep(.5)
         wait_timer += 1
-        if wait_timer > 50: # Wait up to 10 seconds
+        if wait_timer > 1000:
             print(f'ADC input not low enough - is the cable connected?')
             ch_pass = 'FAIL'
             break
     time.sleep(1)
-    dmm_sock.send(cmd_read)
+    dmm_sock.sendall(cmd_read)
     dmm_n = float(dmm_sock.recv(1024).decode().strip())
     if not math.isfinite(dmm_n):
         print(f'**ERROR Reading voltage**\n** CALIBRATION STOPPED **\n** Chassis {chassis_id} NOT calibrated')
@@ -144,7 +155,7 @@ for channel in channel_list:
     if not math.isfinite(adc_wave_n.mean(0)):
         print(f'**ERROR Reading waveform**\n** CALIBRATION STOPPED **\n** Chassis {chassis_id} NOT calibrated')
         ch_pass = 'FAIL'
-    dmm_sock.send(cmd_read)
+    dmm_sock.sendall(cmd_read)
     dmm_validate = float(dmm_sock.recv(1024).decode().strip())
     if abs(dmm_n-dmm_validate) > dmm_deadband:
         print(f'DMM readback discrepency ({dmm} vs {dmm_validate}) on channel: {channel}')
@@ -185,18 +196,18 @@ for channel in channel_list:
 
     calib_pairs.append((dmm_p, dmm_n, float(adc_wave_p.mean(0)), float(adc_wave_n.mean(0)), slope, intercept, ch_pass))
     i += 1
-    r_file.write(f'{i}, {dmm_p}')
+    r_file.write(f'{common_row}, {i}, {dmm_p}')
     for m in adc_wave_p:
         r_file.write(f', {m}')
     r_file.write(f'\n')
-    r_file.write(f'{i}, {dmm_n}')
+    r_file.write(f'{common_row}, {i}, {dmm_n}')
     for m in adc_wave_n:
         r_file.write(f', {m}')
     r_file.write(f'\n')
     time.sleep(.1)
     if ch_pass != 'Pass':
         overall_pass = False
-    print(f'Result: {ch_pass}')
+    print(f'Result: {ch_pass} with {slope}*t + {intercept}')
 r_file.close()
 
 # Write summary file
@@ -204,25 +215,28 @@ try:
     with open(f'{outfile}_calc.csv', 'w') as o_file:
         o_file.write(f'[BIPOLAR MODE] Calibrating chassis: {chassis_id}\n')
         o_file.write(f'Date and time: {calib_date} {calib_time}\n')
+        o_file.write(f'Quartz S/N: {adc_serno}\n')
+        o_file.write(f'Sample Rate: {samp_rate} Hz\n')
         o_file.write(f'DMM Model: {dmm_mfr} {dmm_mdl}\n')
         o_file.write(f'DMM serial number: {dmm_sn}\n')
         o_file.write(f'DMM firmware ver : {dmm_fw}\n')
-        o_file.write(f'ch, volts_1, volts_2, counts_1, counts_2,  slope, offset, result\n')
+        o_file.write(f'{common_hdr}, ch, volts_1, volts_2, counts_1, counts_2,  slope, offset, result\n')
         i = 0
         for elem in calib_pairs:
             i+=1
-            o_file.write(f'{i}')
+            o_file.write(f'{common_row}, {i}')
             for member in elem:
                 o_file.write(f',{member}')
             o_file.write(f'\n')
 except Exception as e:
-        print(f'Error writing file: {e}')
-o_file.close()
-afg_sock.send(cmd_set_zero)
+    print(f'Error writing file: {e}')
+    raise
+finally:
+    afg_sock.sendall(cmd_set_zero)
 if overall_pass:
     print(f'Calibration of {chassis_id} passed on {calib_date} at {calib_time}')
 else:
     print('***************')
     print(f'Calibration of {chassis_id} FAILED on {calib_date} at {calib_time}')
     print('***************')
-
+    sys.exit(1)
