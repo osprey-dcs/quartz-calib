@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2024-12-16 15:00:26 by atf-->
+<!--Saved on 2024-12-29 14:00:04 by atf-->
 <display version="2.0.0">
-  <name>Calib</name>
+  <name>Display</name>
   <widget type="label" version="2.0.0">
     <name>Label</name>
     <class>TITLE</class>
@@ -113,11 +113,19 @@
     <height>40</height>
     <tooltip>When checked, calibration routine will NOT write to slope / offset values. For testing purposes.</tooltip>
   </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_8</name>
+    <text>Ch 01</text>
+    <x>30</x>
+    <y>220</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
   <widget type="multi_state_led" version="2.0.0">
     <name>LED (Multi State)</name>
     <pv_name>FDAS:Calib:stat1</pv_name>
-    <x>20</x>
-    <y>200</y>
+    <x>80</x>
+    <y>220</y>
     <states>
       <state>
         <value>0</value>
@@ -154,11 +162,38 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_4</name>
+    <pv_name>FDAS:Calib:ch1:slope</pv_name>
+    <x>110</x>
+    <y>220</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_5</name>
+    <pv_name>FDAS:Calib:ch1:mean</pv_name>
+    <x>210</x>
+    <y>220</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_9</name>
+    <text>Ch 02</text>
+    <x>30</x>
+    <y>240</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
   <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_1</name>
+    <name>LED (Multi State)_4</name>
     <pv_name>FDAS:Calib:stat2</pv_name>
-    <x>40</x>
-    <y>200</y>
+    <x>80</x>
+    <y>240</y>
     <states>
       <state>
         <value>0</value>
@@ -195,11 +230,38 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_6</name>
+    <pv_name>FDAS:Calib:ch2:slope</pv_name>
+    <x>110</x>
+    <y>240</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_7</name>
+    <pv_name>FDAS:Calib:ch2:mean</pv_name>
+    <x>210</x>
+    <y>240</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_10</name>
+    <text>Ch 03</text>
+    <x>30</x>
+    <y>260</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
   <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_2</name>
+    <name>LED (Multi State)_5</name>
     <pv_name>FDAS:Calib:stat3</pv_name>
-    <x>60</x>
-    <y>200</y>
+    <x>80</x>
+    <y>260</y>
     <states>
       <state>
         <value>0</value>
@@ -236,11 +298,38 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_8</name>
+    <pv_name>FDAS:Calib:ch3:slope</pv_name>
+    <x>110</x>
+    <y>260</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_9</name>
+    <pv_name>FDAS:Calib:ch3:mean</pv_name>
+    <x>210</x>
+    <y>260</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_11</name>
+    <text>Ch 04</text>
+    <x>30</x>
+    <y>280</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
   <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_3</name>
+    <name>LED (Multi State)_6</name>
     <pv_name>FDAS:Calib:stat4</pv_name>
     <x>80</x>
-    <y>200</y>
+    <y>280</y>
     <states>
       <state>
         <value>0</value>
@@ -277,216 +366,38 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_16</name>
-    <pv_name>FDAS:Calib:stat5</pv_name>
-    <x>100</x>
-    <y>200</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_10</name>
+    <pv_name>FDAS:Calib:ch4:slope</pv_name>
+    <x>110</x>
+    <y>280</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_17</name>
-    <pv_name>FDAS:Calib:stat6</pv_name>
-    <x>120</x>
-    <y>200</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_18</name>
-    <pv_name>FDAS:Calib:stat7</pv_name>
-    <x>140</x>
-    <y>200</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_19</name>
-    <pv_name>FDAS:Calib:stat8</pv_name>
-    <x>160</x>
-    <y>200</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_20</name>
-    <pv_name>FDAS:Calib:stat9</pv_name>
-    <x>190</x>
-    <y>200</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_21</name>
-    <pv_name>FDAS:Calib:stat10</pv_name>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_11</name>
+    <pv_name>FDAS:Calib:ch4:mean</pv_name>
     <x>210</x>
-    <y>200</y>
+    <y>280</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_12</name>
+    <text>Ch 05</text>
+    <x>30</x>
+    <y>300</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_7</name>
+    <pv_name>FDAS:Calib:stat5</pv_name>
+    <x>80</x>
+    <y>300</y>
     <states>
       <state>
         <value>0</value>
@@ -523,11 +434,378 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_12</name>
+    <pv_name>FDAS:Calib:ch5:slope</pv_name>
+    <x>110</x>
+    <y>300</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_13</name>
+    <pv_name>FDAS:Calib:ch5:mean</pv_name>
+    <x>210</x>
+    <y>300</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_13</name>
+    <text>Ch 06</text>
+    <x>30</x>
+    <y>320</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
   <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_22</name>
+    <name>LED (Multi State)_8</name>
+    <pv_name>FDAS:Calib:stat6</pv_name>
+    <x>80</x>
+    <y>320</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_14</name>
+    <pv_name>FDAS:Calib:ch6:slope</pv_name>
+    <x>110</x>
+    <y>320</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_15</name>
+    <pv_name>FDAS:Calib:ch6:mean</pv_name>
+    <x>210</x>
+    <y>320</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_14</name>
+    <text>Ch 07</text>
+    <x>30</x>
+    <y>340</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_9</name>
+    <pv_name>FDAS:Calib:stat7</pv_name>
+    <x>80</x>
+    <y>340</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_16</name>
+    <pv_name>FDAS:Calib:ch7:slope</pv_name>
+    <x>110</x>
+    <y>340</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_17</name>
+    <pv_name>FDAS:Calib:ch7:mean</pv_name>
+    <x>210</x>
+    <y>340</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_15</name>
+    <text>Ch 08</text>
+    <x>30</x>
+    <y>360</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_10</name>
+    <pv_name>FDAS:Calib:stat8</pv_name>
+    <x>80</x>
+    <y>360</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_18</name>
+    <pv_name>FDAS:Calib:ch8:slope</pv_name>
+    <x>110</x>
+    <y>360</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_19</name>
+    <pv_name>FDAS:Calib:ch8:mean</pv_name>
+    <x>210</x>
+    <y>360</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_16</name>
+    <text>Ch 09</text>
+    <x>30</x>
+    <y>380</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_11</name>
+    <pv_name>FDAS:Calib:stat9</pv_name>
+    <x>80</x>
+    <y>380</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_20</name>
+    <pv_name>FDAS:Calib:ch9:slope</pv_name>
+    <x>110</x>
+    <y>380</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_21</name>
+    <pv_name>FDAS:Calib:ch9:mean</pv_name>
+    <x>210</x>
+    <y>380</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_17</name>
+    <text>Ch 10</text>
+    <x>30</x>
+    <y>400</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_12</name>
+    <pv_name>FDAS:Calib:stat10</pv_name>
+    <x>80</x>
+    <y>400</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_22</name>
+    <pv_name>FDAS:Calib:ch10:slope</pv_name>
+    <x>110</x>
+    <y>400</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_23</name>
+    <pv_name>FDAS:Calib:ch10:mean</pv_name>
+    <x>210</x>
+    <y>400</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_18</name>
+    <text>Ch 11</text>
+    <x>30</x>
+    <y>420</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_13</name>
     <pv_name>FDAS:Calib:stat11</pv_name>
-    <x>230</x>
-    <y>200</y>
+    <x>80</x>
+    <y>420</y>
     <states>
       <state>
         <value>0</value>
@@ -564,11 +842,38 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_24</name>
+    <pv_name>FDAS:Calib:ch11:slope</pv_name>
+    <x>110</x>
+    <y>420</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_25</name>
+    <pv_name>FDAS:Calib:ch11:mean</pv_name>
+    <x>210</x>
+    <y>420</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_19</name>
+    <text>Ch 12</text>
+    <x>30</x>
+    <y>440</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
   <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_23</name>
+    <name>LED (Multi State)_14</name>
     <pv_name>FDAS:Calib:stat12</pv_name>
-    <x>250</x>
-    <y>200</y>
+    <x>80</x>
+    <y>440</y>
     <states>
       <state>
         <value>0</value>
@@ -605,11 +910,38 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_26</name>
+    <pv_name>FDAS:Calib:ch12:slope</pv_name>
+    <x>110</x>
+    <y>440</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_27</name>
+    <pv_name>FDAS:Calib:ch12:mean</pv_name>
+    <x>210</x>
+    <y>440</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_20</name>
+    <text>Ch 13</text>
+    <x>30</x>
+    <y>460</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
   <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_24</name>
+    <name>LED (Multi State)_15</name>
     <pv_name>FDAS:Calib:stat13</pv_name>
-    <x>270</x>
-    <y>200</y>
+    <x>80</x>
+    <y>460</y>
     <states>
       <state>
         <value>0</value>
@@ -646,11 +978,38 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_28</name>
+    <pv_name>FDAS:Calib:ch13:slope</pv_name>
+    <x>110</x>
+    <y>460</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_29</name>
+    <pv_name>FDAS:Calib:ch13:mean</pv_name>
+    <x>210</x>
+    <y>460</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_21</name>
+    <text>Ch 14</text>
+    <x>30</x>
+    <y>480</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
   <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_25</name>
+    <name>LED (Multi State)_28</name>
     <pv_name>FDAS:Calib:stat14</pv_name>
-    <x>290</x>
-    <y>200</y>
+    <x>80</x>
+    <y>480</y>
     <states>
       <state>
         <value>0</value>
@@ -687,11 +1046,38 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_30</name>
+    <pv_name>FDAS:Calib:ch14:slope</pv_name>
+    <x>110</x>
+    <y>480</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_31</name>
+    <pv_name>FDAS:Calib:ch14:mean</pv_name>
+    <x>210</x>
+    <y>480</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_22</name>
+    <text>Ch 15</text>
+    <x>30</x>
+    <y>500</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
   <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_26</name>
+    <name>LED (Multi State)_29</name>
     <pv_name>FDAS:Calib:stat15</pv_name>
-    <x>310</x>
-    <y>200</y>
+    <x>80</x>
+    <y>500</y>
     <states>
       <state>
         <value>0</value>
@@ -727,12 +1113,39 @@
       </state>
     </states>
     <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_32</name>
+    <pv_name>FDAS:Calib:ch15:slope</pv_name>
+    <x>110</x>
+    <y>500</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_33</name>
+    <pv_name>FDAS:Calib:ch15:mean</pv_name>
+    <x>210</x>
+    <y>500</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_23</name>
+    <text>Ch 16</text>
+    <x>30</x>
+    <y>520</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_27</name>
+    <name>LED (Multi State)_30</name>
     <pv_name>FDAS:Calib:stat16</pv_name>
-    <x>330</x>
-    <y>200</y>
+    <x>80</x>
+    <y>520</y>
     <states>
       <state>
         <value>0</value>
@@ -769,27 +1182,922 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_4</name>
-    <text>1:8</text>
-    <x>100</x>
-    <y>180</y>
-    <width>30</width>
-    <horizontal_alignment>1</horizontal_alignment>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_34</name>
+    <pv_name>FDAS:Calib:ch16:slope</pv_name>
+    <x>110</x>
+    <y>520</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_35</name>
+    <pv_name>FDAS:Calib:ch16:mean</pv_name>
+    <x>210</x>
+    <y>520</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>Label_5</name>
-    <text>9:16</text>
-    <x>260</x>
-    <y>180</y>
-    <width>30</width>
-    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_24</name>
+    <text>Ch 24</text>
+    <x>360</x>
+    <y>360</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_31</name>
+    <pv_name>FDAS:Calib:stat24</pv_name>
+    <x>410</x>
+    <y>360</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_36</name>
+    <pv_name>FDAS:Calib:ch24:slope</pv_name>
+    <x>440</x>
+    <y>360</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_37</name>
+    <pv_name>FDAS:Calib:ch24:mean</pv_name>
+    <x>540</x>
+    <y>360</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_25</name>
+    <text>Ch 25</text>
+    <x>360</x>
+    <y>380</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_32</name>
+    <pv_name>FDAS:Calib:stat25</pv_name>
+    <x>410</x>
+    <y>380</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_38</name>
+    <pv_name>FDAS:Calib:ch25:slope</pv_name>
+    <x>440</x>
+    <y>380</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_39</name>
+    <pv_name>FDAS:Calib:ch25:mean</pv_name>
+    <x>540</x>
+    <y>380</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_26</name>
+    <text>Ch 26</text>
+    <x>360</x>
+    <y>400</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_33</name>
+    <pv_name>FDAS:Calib:stat26</pv_name>
+    <x>410</x>
+    <y>400</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_40</name>
+    <pv_name>FDAS:Calib:ch26:slope</pv_name>
+    <x>440</x>
+    <y>400</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_41</name>
+    <pv_name>FDAS:Calib:ch26:mean</pv_name>
+    <x>540</x>
+    <y>400</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_27</name>
+    <text>Ch 27</text>
+    <x>360</x>
+    <y>420</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_34</name>
+    <pv_name>FDAS:Calib:stat27</pv_name>
+    <x>410</x>
+    <y>420</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_42</name>
+    <pv_name>FDAS:Calib:ch27:slope</pv_name>
+    <x>440</x>
+    <y>420</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_43</name>
+    <pv_name>FDAS:Calib:ch27:mean</pv_name>
+    <x>540</x>
+    <y>420</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_28</name>
+    <text>Ch 28</text>
+    <x>360</x>
+    <y>440</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_35</name>
+    <pv_name>FDAS:Calib:stat28</pv_name>
+    <x>410</x>
+    <y>440</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_44</name>
+    <pv_name>FDAS:Calib:ch28:slope</pv_name>
+    <x>440</x>
+    <y>440</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_45</name>
+    <pv_name>FDAS:Calib:ch28:mean</pv_name>
+    <x>540</x>
+    <y>440</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_29</name>
+    <text>Ch 29</text>
+    <x>360</x>
+    <y>460</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_36</name>
+    <pv_name>FDAS:Calib:stat29</pv_name>
+    <x>410</x>
+    <y>460</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_46</name>
+    <pv_name>FDAS:Calib:ch29:slope</pv_name>
+    <x>440</x>
+    <y>460</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_47</name>
+    <pv_name>FDAS:Calib:ch29:mean</pv_name>
+    <x>540</x>
+    <y>460</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_30</name>
+    <text>Ch 30</text>
+    <x>360</x>
+    <y>480</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_37</name>
+    <pv_name>FDAS:Calib:stat30</pv_name>
+    <x>410</x>
+    <y>480</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_48</name>
+    <pv_name>FDAS:Calib:ch30:slope</pv_name>
+    <x>440</x>
+    <y>480</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_49</name>
+    <pv_name>FDAS:Calib:ch30:mean</pv_name>
+    <x>540</x>
+    <y>480</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_31</name>
+    <text>Ch 31</text>
+    <x>360</x>
+    <y>500</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_38</name>
+    <pv_name>FDAS:Calib:stat31</pv_name>
+    <x>410</x>
+    <y>500</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_50</name>
+    <pv_name>FDAS:Calib:ch31:slope</pv_name>
+    <x>440</x>
+    <y>500</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_51</name>
+    <pv_name>FDAS:Calib:ch31:mean</pv_name>
+    <x>540</x>
+    <y>500</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_32</name>
+    <text>Ch 32</text>
+    <x>360</x>
+    <y>520</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_39</name>
+    <pv_name>FDAS:Calib:stat32</pv_name>
+    <x>410</x>
+    <y>520</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_52</name>
+    <pv_name>FDAS:Calib:ch32:slope</pv_name>
+    <x>440</x>
+    <y>520</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_53</name>
+    <pv_name>FDAS:Calib:ch32:mean</pv_name>
+    <x>540</x>
+    <y>520</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_33</name>
+    <text>Ch 17</text>
+    <x>360</x>
+    <y>220</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_40</name>
+    <pv_name>FDAS:Calib:stat17</pv_name>
+    <x>410</x>
+    <y>220</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_54</name>
+    <pv_name>FDAS:Calib:ch17:slope</pv_name>
+    <x>440</x>
+    <y>220</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_55</name>
+    <pv_name>FDAS:Calib:ch17:mean</pv_name>
+    <x>540</x>
+    <y>220</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_34</name>
+    <text>Ch 18</text>
+    <x>360</x>
+    <y>240</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_41</name>
+    <pv_name>FDAS:Calib:stat18</pv_name>
+    <x>410</x>
+    <y>240</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_56</name>
+    <pv_name>FDAS:Calib:ch18:slope</pv_name>
+    <x>440</x>
+    <y>240</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_57</name>
+    <pv_name>FDAS:Calib:ch18:mean</pv_name>
+    <x>540</x>
+    <y>240</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_35</name>
+    <text>Ch 19</text>
+    <x>360</x>
+    <y>260</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_42</name>
+    <pv_name>FDAS:Calib:stat19</pv_name>
+    <x>410</x>
+    <y>260</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_58</name>
+    <pv_name>FDAS:Calib:ch19:slope</pv_name>
+    <x>440</x>
+    <y>260</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_59</name>
+    <pv_name>FDAS:Calib:ch19:mean</pv_name>
+    <x>540</x>
+    <y>260</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_36</name>
+    <text>Ch 20</text>
+    <x>360</x>
+    <y>280</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)_43</name>
+    <pv_name>FDAS:Calib:stat20</pv_name>
+    <x>410</x>
+    <y>280</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label></label>
+        <color>
+          <color name="Read_Background" red="240" green="240" blue="240">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label></label>
+        <color>
+          <color red="255" green="255" blue="77">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>2</value>
+        <label></label>
+        <color>
+          <color name="MAJOR" red="255" green="0" blue="0">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>3</value>
+        <label></label>
+        <color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+    <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_60</name>
+    <pv_name>FDAS:Calib:ch20:slope</pv_name>
+    <x>440</x>
+    <y>280</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_61</name>
+    <pv_name>FDAS:Calib:ch20:mean</pv_name>
+    <x>540</x>
+    <y>280</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_37</name>
+    <text>Ch 21</text>
+    <x>360</x>
+    <y>300</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="multi_state_led" version="2.0.0">
     <name>LED (Multi State)_44</name>
-    <pv_name>FDAS:Calib:stat17</pv_name>
-    <x>20</x>
-    <y>230</y>
+    <pv_name>FDAS:Calib:stat21</pv_name>
+    <x>410</x>
+    <y>300</y>
     <states>
       <state>
         <value>0</value>
@@ -825,12 +2133,39 @@
       </state>
     </states>
     <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_62</name>
+    <pv_name>FDAS:Calib:ch21:slope</pv_name>
+    <x>440</x>
+    <y>300</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_63</name>
+    <pv_name>FDAS:Calib:ch21:mean</pv_name>
+    <x>540</x>
+    <y>300</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_38</name>
+    <text>Ch 22</text>
+    <x>360</x>
+    <y>320</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="multi_state_led" version="2.0.0">
     <name>LED (Multi State)_45</name>
-    <pv_name>FDAS:Calib:stat18</pv_name>
-    <x>40</x>
-    <y>230</y>
+    <pv_name>FDAS:Calib:stat22</pv_name>
+    <x>410</x>
+    <y>320</y>
     <states>
       <state>
         <value>0</value>
@@ -866,176 +2201,39 @@
       </state>
     </states>
     <fallback_label></fallback_label>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_64</name>
+    <pv_name>FDAS:Calib:ch22:slope</pv_name>
+    <x>440</x>
+    <y>320</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_65</name>
+    <pv_name>FDAS:Calib:ch22:mean</pv_name>
+    <x>540</x>
+    <y>320</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_39</name>
+    <text>Ch 23</text>
+    <x>360</x>
+    <y>340</y>
+    <width>50</width>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
   <widget type="multi_state_led" version="2.0.0">
     <name>LED (Multi State)_46</name>
-    <pv_name>FDAS:Calib:stat19</pv_name>
-    <x>60</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_47</name>
-    <pv_name>FDAS:Calib:stat20</pv_name>
-    <x>80</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_48</name>
-    <pv_name>FDAS:Calib:stat21</pv_name>
-    <x>100</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_49</name>
-    <pv_name>FDAS:Calib:stat22</pv_name>
-    <x>120</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_50</name>
     <pv_name>FDAS:Calib:stat23</pv_name>
-    <x>140</x>
-    <y>230</y>
+    <x>410</x>
+    <y>340</y>
     <states>
       <state>
         <value>0</value>
@@ -1072,389 +2270,63 @@
     </states>
     <fallback_label></fallback_label>
   </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_51</name>
-    <pv_name>FDAS:Calib:stat24</pv_name>
-    <x>160</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_66</name>
+    <pv_name>FDAS:Calib:ch23:slope</pv_name>
+    <x>440</x>
+    <y>340</y>
+    <width>90</width>
+    <format>3</format>
+    <precision>5</precision>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_52</name>
-    <pv_name>FDAS:Calib:stat25</pv_name>
-    <x>190</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_67</name>
+    <pv_name>FDAS:Calib:ch23:mean</pv_name>
+    <x>540</x>
+    <y>340</y>
+    <width>90</width>
+    <precision>4</precision>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_53</name>
-    <pv_name>FDAS:Calib:stat26</pv_name>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_68</name>
+    <pv_name>FDAS:Calib:col1_message</pv_name>
+    <x>110</x>
+    <y>190</y>
+    <width>90</width>
+    <height>30</height>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_69</name>
+    <pv_name>FDAS:Calib:col2_message</pv_name>
     <x>210</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
+    <y>190</y>
+    <width>90</width>
+    <height>30</height>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_54</name>
-    <pv_name>FDAS:Calib:stat27</pv_name>
-    <x>230</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_70</name>
+    <pv_name>FDAS:Calib:col2_message</pv_name>
+    <x>540</x>
+    <y>190</y>
+    <width>90</width>
+    <height>30</height>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_55</name>
-    <pv_name>FDAS:Calib:stat28</pv_name>
-    <x>250</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_56</name>
-    <pv_name>FDAS:Calib:stat29</pv_name>
-    <x>270</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_57</name>
-    <pv_name>FDAS:Calib:stat30</pv_name>
-    <x>290</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_58</name>
-    <pv_name>FDAS:Calib:stat31</pv_name>
-    <x>310</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="multi_state_led" version="2.0.0">
-    <name>LED (Multi State)_59</name>
-    <pv_name>FDAS:Calib:stat32</pv_name>
-    <x>330</x>
-    <y>230</y>
-    <states>
-      <state>
-        <value>0</value>
-        <label></label>
-        <color>
-          <color name="Read_Background" red="240" green="240" blue="240">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>1</value>
-        <label></label>
-        <color>
-          <color red="255" green="255" blue="77">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>2</value>
-        <label></label>
-        <color>
-          <color name="MAJOR" red="255" green="0" blue="0">
-          </color>
-        </color>
-      </state>
-      <state>
-        <value>3</value>
-        <label></label>
-        <color>
-          <color name="OK" red="0" green="255" blue="0">
-          </color>
-        </color>
-      </state>
-    </states>
-    <fallback_label></fallback_label>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_6</name>
-    <text>17:24</text>
-    <x>100</x>
-    <y>250</y>
-    <width>30</width>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_7</name>
-    <text>25:32</text>
-    <x>260</x>
-    <y>250</y>
-    <width>30</width>
-    <horizontal_alignment>1</horizontal_alignment>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_71</name>
+    <pv_name>FDAS:Calib:col1_message</pv_name>
+    <x>440</x>
+    <y>190</y>
+    <width>90</width>
+    <height>30</height>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
 </display>
