@@ -5,7 +5,7 @@ from p4p.client.cothread import Context
 from datetime import date, datetime
 import math
 import numpy
-from socket import *
+import socket
 from softioc import softioc, builder, alarm
 import sys
 import time
@@ -62,9 +62,9 @@ def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
     settle_slope = 1e-3  # Largest slope magnitude we can tolerate for settling purposes
 
     outfile = f'{calib_date}_{file_time}_cal_{chassis_id}_bipolar'
-    dmm_sock = create_connection(dmm_addr)
+    dmm_sock = socket.create_connection(dmm_addr)
     dmm_rx = dmm_sock.makefile('rb', buffering=0)
-    afg_sock = create_connection(afg_addr)
+    afg_sock = socket.create_connection(afg_addr)
     afg_rx = afg_sock.makefile('rb', buffering=0)
 
     pv_col1_message.set(f'Slope < {settle_slope}')
@@ -257,34 +257,31 @@ def runcalibration(chassis_id, push_data, time_pv, message_pv, pv_status_leds):
         r_file.write(f'{ch + 1}, {dmm_p}')
         for m in ch_pos[:, ch]:
             r_file.write(f', {m}')
-        r_file.write(f'\n')
+        r_file.write('\n')
         r_file.write(f'{ch + 1}, {dmm_n}')
         for m in ch_neg[:, ch]:
             r_file.write(f', {m}')
-        r_file.write(f'\n')
+        r_file.write('\n')
 
         if ch_pass != 'Pass':
             overall_pass = False
     r_file.close()
 
     # Write summary file
-    try:
-        with open(f'{outfile}_calc.csv', 'w') as o_file:
-            o_file.write(f'[BIPOLAR MODE] Calibrating chassis: {chassis_id}\n')
-            o_file.write(f'Date and time: {calib_date} {calib_time}\n')
-            o_file.write(f'DMM Model: {dmm_mfr} {dmm_mdl}\n')
-            o_file.write(f'DMM serial number: {dmm_sn}\n')
-            o_file.write(f'DMM firmware ver : {dmm_fw}\n')
-            o_file.write(f'ch, volts_1, volts_2, counts_1, counts_2,  slope, offset, result\n')
-            i = 0
-            for elem in calib_pairs:
-                i += 1
-                o_file.write(f'{i}')
-                for member in elem:
-                    o_file.write(f',{member}')
-                o_file.write(f'\n')
-    except Exception as e:
-        _log.exception('Error writing file: %r', e)
+    with open(f'{outfile}_calc.csv', 'w') as o_file:
+        o_file.write(f'[BIPOLAR MODE] Calibrating chassis: {chassis_id}\n')
+        o_file.write(f'Date and time: {calib_date} {calib_time}\n')
+        o_file.write(f'DMM Model: {dmm_mfr} {dmm_mdl}\n')
+        o_file.write(f'DMM serial number: {dmm_sn}\n')
+        o_file.write(f'DMM firmware ver : {dmm_fw}\n')
+        o_file.write( 'ch, volts_1, volts_2, counts_1, counts_2,  slope, offset, result\n')
+        i = 0
+        for elem in calib_pairs:
+            i += 1
+            o_file.write(f'{i}')
+            for member in elem:
+                o_file.write(f',{member}')
+            o_file.write('\n')
     o_file.close()
     afg_sock.sendall(cmd_set_zero)
 
