@@ -8,6 +8,7 @@ import numpy
 import socket
 from softioc import softioc, builder, alarm
 import sys
+import os
 import time
 import logging
 from collections import namedtuple
@@ -204,9 +205,13 @@ class CalibProcess:
 
     def write_raw(self, dmmPos, dmmNeg, adcPos, adcNeg):
         'Write "raw" calibration file'
-        # 2025-03-23_10-14-15_cal_05_bipolar_raw.csv
+        # cal-20250323/2025-03-23_10-14-15_cal_05_bipolar_raw.csv
+        outdir = self.now.strftime('cal-%Y%m%d')
         outname = self.now.strftime('%Y-%m-%d_%H-%M-%S')
-        outname = f'{outname}_cal_{self.chassis:02d}_bipolar_raw.csv'
+        outname = f'{outdir}/{outname}_cal_{self.chassis:02d}_bipolar_raw.csv'
+
+        if not os.path.exists(outdir):
+            os.mkdir(outdir)
 
         with open(outname, 'w') as F:
             F.write(f'''\
@@ -295,12 +300,16 @@ def write_calib(chassis, now):
     if pv_dmm_modl.get()=='':
         raise RuntimeError('No calib to write')
 
-    # 2025-03-23_10-27-28_cal_05_bipolar_calc.csv
+    # cal-20250310/2025-03-23_10-27-28_cal_05_bipolar_calc.csv
+    outdir = now.strftime('cal-%Y%m%d')
     outname = now.strftime('%Y-%m-%d_%H-%M-%S')
-    outname = f'{outname}_cal_{chassis:02d}_bipolar_calc.csv'
+    outname = f'{outdir}/{outname}_cal_{chassis:02d}_bipolar_calc.csv'
 
     samp_rate = CalibProcess(chassis).daq_rate
     oper = pv_oper.get() or 'Unspecified'
+
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
 
     with open(outname, 'w') as F:
         F.write(f'''\
