@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2025-03-23 15:45:07 by atf-->
+<display version="2.0.0">
+  <name>cal chan $(CH)</name>
+  <width>725</width>
+  <height>30</height>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_1</name>
+    <pv_name>FDAS:Calib:ch$(CH):new:slope</pv_name>
+    <x>520</x>
+    <y>5</y>
+    <format>3</format>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_3</name>
+    <pv_name>FDAS:Calib:ch$(CH):prev:slope</pv_name>
+    <x>230</x>
+    <y>5</y>
+    <format>3</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_8</name>
+    <text>Chan. $(CH)</text>
+    <x>5</x>
+    <y>5</y>
+    <width>70</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_4</name>
+    <pv_name>FDAS:Calib:ch$(CH):prev:offset</pv_name>
+    <x>340</x>
+    <y>5</y>
+    <width>90</width>
+    <format>3</format>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_5</name>
+    <pv_name>FDAS:Calib:ch$(CH):new:offset</pv_name>
+    <x>630</x>
+    <y>5</y>
+    <width>90</width>
+    <format>3</format>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>LED</name>
+    <pv_name>FDAS:Calib:ch$(CH):prev:TCAL</pv_name>
+    <x>75</x>
+    <y>5</y>
+    <width>145</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>LED (Multi State)</name>
+    <pv_name>FDAS:Calib:ch$(CH):new:status</pv_name>
+    <x>460</x>
+    <y>5</y>
+    <width>50</width>
+  </widget>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline</name>
+    <x>440</x>
+    <width>1</width>
+    <height>30</height>
+    <points>
+      <point x="0.0" y="30.0">
+      </point>
+      <point x="0.0" y="0.0">
+      </point>
+    </points>
+  </widget>
+</display>
