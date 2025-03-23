@@ -348,7 +348,6 @@ def put_calib(chassis, now):
 
     for name, val in updates:
         print('PUT', name, val)
-    return # TODO...
 
     ctxt.put(
         [name for name, _val in updates],
