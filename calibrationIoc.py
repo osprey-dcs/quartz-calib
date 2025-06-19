@@ -1,15 +1,12 @@
 import argparse
 import cothread
-#from cothread.catools import *
 from p4p.client.cothread import Context
-from datetime import date, datetime
+from datetime import datetime
 import math
 import numpy
 import socket
 from softioc import softioc, builder, alarm
-import sys
 import os
-import time
 import logging
 from collections import namedtuple
 
@@ -62,8 +59,7 @@ class CalibProcess:
         self.chassis = chassis
         self.now = datetime.now()
 
-        grp = ctxt.get('FDAS:ACQ:rate')
-        # Find acquisition rate in kHz
+        # Find acquisition rate in samples per second
         self.daq_rate = int(ctxt.get('FDAS:ACQ:rate.RVAL').value)
 
     def connect_dmm_afg(self):
@@ -133,8 +129,8 @@ class CalibProcess:
                     [grp.value[f'Ch{ch + 1:02d}'][:, None] for ch in range(num_adc_channels)],
                     axis=1
                 )
-                assert tbase.shape == (10000,), tbase.shape
-                assert traces.shape == (10000, 32), traces.shape
+                assert tbase.ndim==1, tbase.shape
+                assert traces.ndim==2 and traces.shape[1]==32, traces.shape
 
                 # will declare success if any one channel is settled
                 for ch in range(32):
@@ -371,14 +367,19 @@ def commit_calibration(chassis):
     write_calib(chassis, now)
     put_calib(chassis, now)
 
+def getargs():
+    parser = argparse.ArgumentParser(description='ATF Calibration IOC')
+    parser.add_argument('-f', '--faddr', help='Specify function generator IP addr')
+    parser.add_argument('-fp', '--fport', help='Specify function generator SCPI port')
+    parser.add_argument('-v', '--vaddr', help='Specify voltmeter IP addr')
+    parser.add_argument('-vp', '--vport', help='Specify voltmeter SCPI port')
+    parser.add_argument('--prefix', default='FDAS:Calib',
+                        help='PV name prefix')
+    return parser
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
-    parser = argparse.ArgumentParser(description='ATF Calibration IOC')
-    parser.add_argument('-f', '--faddr', help=f'Specify function generator IP addr [{afg_addr[0]}]')
-    parser.add_argument('-fp', '--fport', help=f'Specify function generator SCPI port [{afg_addr[1]}]')
-    parser.add_argument('-v', '--vaddr', help=f'Specify voltmeter IP addr [{dmm_addr[0]}]')
-    parser.add_argument('-vp', '--vport', help=f'Specify voltmeter SCPI port [{dmm_addr[1]}]')
-    args = parser.parse_args()
+    args = getargs().parse_args()
 
     if args.faddr:
         afg_ip = args.faddr
@@ -402,7 +403,7 @@ if __name__ == '__main__':
     dmm_addr = (dmm_ip, dmm_port)
 
     # Set up pvs
-    builder.SetDeviceName('FDAS:Calib')
+    builder.SetDeviceName(args.prefix)
 
     action_request = cothread.Event()
     def wakeup(_val):
@@ -438,8 +439,8 @@ if __name__ == '__main__':
     pv_status_timedate = builder.stringOut('status_time')
     pv_status_message = builder.stringOut('status_message', initial_value='Startup')
     pv_dmm = (
-        builder.aIn(f'dmm:1'),
-        builder.aIn(f'dmm:2'),
+        builder.aIn('dmm:1'),
+        builder.aIn('dmm:2'),
     )
 
     # per-channel records
