@@ -16,28 +16,13 @@ log_info = False
 PerChanT = namedtuple('PerChan', [
     'PrevTCAL', 'PrevSlope', 'PrevOff',
     'NewADC1', 'NewADC2',
-    'NewStatus', 'NewSlope', 'NewOff', 'NewSlopeDiff', 'NewOffDiff',
+    'NewStatus', 'NewSlope', 'NewOff',
 ])
-
-# ATF equipment
-dmm_addr = ('192.168.83.47', 5025)
-afg_addr = ('192.168.83.48', 5025)
-# Development equipment
-#dmm_addr = ('192.168.79.97', 5025)
-#afg_addr = ('192.168.79.98', 5025)
-
-cmd_idn = b'*IDN?\n'
-cmd_read = b'READ?\n'
-cmd_set_pos = b'APPL:DC DEF, DEF, 9.0\n'  # +9V
-cmd_set_neg = b'APPL:DC DEF, DEF, -9.0\n'  # -9V
-cmd_set_zero = b'APPL:DC DEF, DEF, 0\n'  # 0V
-cmd_query_state = b'APPL?\n'
-# reply: "DC +1.0E+03,+2.000E-01,+0.00E+00"
-cmd_set_highz = b'OUTPUT1:LOAD INF\n'
 
 num_adc_channels = 32
 
-ctxt = Context(nt=False)  # PVA client
+def per_err(expected:float, actual:float): # return fraction
+    return (actual-expected)/expected
 
 def report_status(message):
     _log.info('STATUS: %s', message)
@@ -46,43 +31,82 @@ def report_status(message):
     pv_status_message.set(message[:39])
 
 class CalibProcess:
-    expected_count = 5560000  # Approx count value for 9v input
-    count_tolerance = 10000  # number of counts difference we tolerate
-    offset_tolerance = .01  # largest offset we tolerate (we expect zero as offset)
-    expected_slope = 1.6e-6  # Expected slope values based on previous runs
-    slope_tolerance = 1e-6  # largest slope variation we tolerate
-    settle_slope = 1e-3  # Largest slope magnitude we can tolerate for settling purposes
+    offset_tolerance = .01 # [V] largest offset we tolerate (we expect zero as offset)
+    slope_tolerance = 2.0  # [%] allowed gain deviation from nominal
 
-    dmm_deadband = 0.01
+    # Nominal scaling from ADC counts to volts in terms of op-amp gain set resister (R_g)
+    # and ADC reference voltages (V_ref).
+    #   V_in / ADC = ( 5*R_g*V_ref ) / (0x800000 * (R_g + 6000) )
+    #
+    # When R_g -> Inf reduces to
+    #   V_in / ADC = ( 5*V_ref ) / 0x800000
+    #
+    # Short production history:
+    #
+    # Batches 1 and 2
+    #   R_g = 11.8k +- 1%
+    #   V_ref = 4.096 V
+    #
+    # Batch 3 (and future)
+    #   R_g = Inf (omitted)
+    #   V_ref = 2.048 V
+    _serno_g1 = set(range(1, 41)) | set(range(101,121))
+    _gain_g1 =  1.61846e-06 # V / ADC
+
+    _serno_g2 = set(range(121, 141)) | set(range(201,206))
+    _gain_g2 =  1.22070e-06 # V / ADC
 
     def __init__(self, chassis):
         self.chassis = chassis
         self.now = datetime.now()
 
+## softioc bug. circa 4.6.1.  "soft" record with OMSL/DOL alreadys reports UDF_ALARM (does clear .UDF)
+        for rec in (pv_samp_rate, pv_adc_sn):
+            sevr = rec.get_field('SEVR')
+            if sevr!='NO_ALARM':
+                raise RuntimeError(f'Not ready {rec} : {sevr!r}')
+
         # Find acquisition rate in samples per second
-        self.daq_rate = int(ctxt.get('FDAS:ACQ:rate.RVAL').value)
+        self.daq_rate = pv_samp_rate.get()
+        self.serno = int(pv_adc_sn.get())
+
+        _log.debug('Cal. S/N %d @ %d Hz', self.serno, self.daq_rate)
+
+        if self.serno in self._serno_g1:
+            _log.debug('Detected gain #1')
+            self.expected_gain = self._gain_g1
+        else:
+            if self.serno in self._serno_g2:
+                _log.debug('Detected gain #2')
+            else:
+                _log.warn('Unable to lookup expected gain.  Use #2')
+            self.expected_gain = self._gain_g2
 
     def connect_dmm_afg(self):
+        _log.debug('Connecting to DMM @%r', dmm_addr)
         self.dmm_sock = socket.create_connection(dmm_addr)
         self.dmm_rx = self.dmm_sock.makefile('rb', buffering=0)
+        _log.debug('Connecting to AFG @%r', afg_addr)
         self.afg_sock = socket.create_connection(afg_addr)
         self.afg_rx = self.afg_sock.makefile('rb', buffering=0)
 
-
         # Grab DMM info
-        self.dmm_sock.sendall(cmd_idn)
+        self.dmm_sock.sendall(b'*IDN?\n')
         msg = self.dmm_rx.readline(1024).decode().strip()
         _log.debug('DMM info %r', msg)
         self.dmm_mfr, self.dmm_mdl, self.dmm_sn, self.dmm_fw = msg.split(',')[:4]
 
         # grab AFG info
-        self.afg_sock.sendall(cmd_idn)
+        self.afg_sock.sendall(b'*IDN?\n')
         msg = self.afg_rx.readline(1024)
         _log.debug('DMM info %r', msg)
 
+        # set DMM to longer integration period.  Default 10
+        self.dmm_sock.sendall(b'VOLT:NPLC 100\n')
+
         # Zero AFG and set to high Z output
-        self.afg_sock.sendall(cmd_set_zero)
-        self.afg_sock.sendall(cmd_set_highz)
+        self.set_afg(0.0)
+        self.afg_sock.sendall(b'OUTPUT1:LOAD INF\n')
 
         pv_dmm_manu.set(self.dmm_mfr)
         pv_dmm_modl.set(self.dmm_mdl)
@@ -91,73 +115,81 @@ class CalibProcess:
 
     def set_afg(self, v):
         self.afg_sock.sendall(f'APPL:DC DEF, DEF, {v:.1f}\n'.encode())
+        # query AFG in lieu of an actual way to ensure the output has settled
         rbV = self._query_afg()
         assert abs(v-rbV)<0.001, (v, rbV)
 
     def _query_afg(self):
-        self.afg_sock.sendall(cmd_query_state)
+        self.afg_sock.sendall(b'APPL?\n')
         msg = self.afg_rx.readline(1024).strip().strip(b'"')
         # '"DC +1.0E+03,+2.000E-01,+0.00E+00"\n'
         assert msg.startswith(b'DC '), (type(msg), msg)
         parts = msg[3:].split(b',')
         return float(parts[2])
 
-    def dmm_read(self):
-        vals = [None, None]
-        for i in range(2):
-            self.dmm_sock.sendall(cmd_read)
-            vals[i] = float(self.dmm_rx.readline(1024).decode().strip())
-            if not math.isfinite(vals[i]):
-                raise RuntimeError('DMM readout error.  Unable to proceed')
+    def dmm_read(self, expect:float):
+        assert expect!=0, "Don't expect zero..."
+        self.dmm_sock.sendall(b'READ?\n')
+        actual = float(self.dmm_rx.readline(1024).decode().strip())
+        # sanity check absolute calibrations between AFG and DMM
+        # eg. would catch impedance mis-match resulting in 2x difference
+        err = (actual - expect)/expect
+        assert numpy.abs(err)<0.01, err
 
-        if numpy.abs(numpy.diff(vals))[0] > self.dmm_deadband:
-            raise RuntimeError('DMM does not settle.  Unable to proceed')
-        return vals[1]
+        return actual
 
     # Wait for adc to settle at desired range
-    def query_adc(self):
-        updateQ = cothread.EventQueue(max_length=16)
+    def query_adc(self, expect: float):
+        expect_counts = int(expect / self.expected_gain) # V / (V/ADC)
+
+        # after an AFG setting change has settled, there may be
+        # one acqusition in progress, and one being read out.
+        # also skip the initial subscription update.
+        # and one more for paranoia...
+        nskip = 4
+
+        updateQ = cothread.EventQueue(max_length=nskip*2)
         with ctxt.monitor(f'FDAS:{self.chassis:02d}:SA:V', updateQ.Signal):
-            updateQ.Wait(timeout=5) # wait for and discard initial update
+            try:
+                for _n in range(nskip):
+                    updateQ.Wait(timeout=3) # wait for and discard initial update
+            except Exception:
+                raise RuntimeError('No Data.  IOC running?')
 
-            for n in range(10):  # Allow 10 chances to converge
-                report_status(f'Wait for settle {n}')
-
+            try:
                 grp = updateQ.Wait(timeout=15.0) # slowest update rate is 1k
-                tbase = grp['value.T']
-                traces = numpy.concatenate(
-                    [grp.value[f'Ch{ch + 1:02d}'][:, None] for ch in range(num_adc_channels)],
-                    axis=1
-                )
-                assert tbase.ndim==1, tbase.shape
-                assert traces.ndim==2 and traces.shape[1]==32, traces.shape
+            except Exception:
+                raise RuntimeError('No Update.  Acquiring?')
 
-                # will declare success if any one channel is settled
-                for ch in range(32):
-                    chanData = traces[:,ch]
-                    # nominal +- 9V is +-5560000 count
-                    if numpy.abs(chanData).min() < 5000000:
-                        _log.debug('ch %d too low %f', ch+1, numpy.abs(chanData).min())
-                        continue
+        #tbase = grp['value.T']
+        traces = numpy.stack(
+            [grp.value[f'Ch{ch + 1:02d}'] for ch in range(num_adc_channels)],
+            axis=1
+        ) # [nsamp, 32]
 
-                    elif numpy.abs(chanData).max() > 6000000:
-                        _log.debug('ch %d too high %f', ch+1, numpy.abs(chanData).max())
-                        continue
+        if traces.shape[0]<950: # need sufficent samples for stats
+            raise RuntimeError('Insuf. samples. Incr. display period')
 
-                    slope, offset = numpy.polyfit(tbase, chanData, 1)
-                    # slope V/sec
-                    _log.debug('ch %d : %f + %f *t', ch+1, offset, slope)
+        stds = traces.std(axis=0)
+        assert stds.shape==(32,), stds.shape
 
-                    if abs(slope) > 100.0: # V/sec
-                        _log.debug('ch %d too slope %f', ch+1, abs(slope))
-                        continue
+        assert stds.min() > 10, stds # impossibly low noise...
 
-                    report_status(f'Ch {ch} settled {n}')
-                    ret = traces.mean(0)
-                    assert ret.shape==(32,), ret.shape
-                    return ret
+        # check that at least one channel has a sane reading
+        # eg. catches AFG not connected to selected chassis
 
+        if stds.min() > 400: # worst case in lab. setting is ~200 counts
+            _log.error('excessive std: %r', stds)
             raise RuntimeError('Not settled')
+
+        means = traces.mean(axis=0)
+        merr = (means - expect_counts) / expect_counts
+
+        if numpy.abs(merr).min() > 0.02:
+            _log.error('abs. err exceed: %r', merr)
+            raise RuntimeError('No signal?')
+
+        return means
 
     def compute_calib(self, dmmPos, dmmNeg, adcPos, adcNeg):
         Y = numpy.asarray([dmmPos, dmmNeg])
@@ -169,32 +201,24 @@ class CalibProcess:
             chan.NewADC1.set(int(X[0]))
             chan.NewADC2.set(int(X[1]))
 
-            _log.debug('ch %d fit X %r Y %r', ch+1, X, Y)
+            Yexpect = X / self.expected_gain
+
             slope, offset = numpy.polyfit(X, Y, 1) # linear fit
-
-            prevSlope = chan.PrevSlope.get()
-            diffSlope = (slope - prevSlope) / numpy.asarray(prevSlope) # return Inf if prev==0
-
-            prevOff = chan.PrevOff.get()
-            diffOff = (offset - prevOff) / numpy.asarray(prevOff) # return Inf if prev==0
+            _log.debug('ch %d fit X %r Y %r (%r) -> %f*x + %f', ch+1, X, Y, Yexpect, slope, offset)
 
             chan.NewOff.set(offset)
-            chan.NewOffDiff.set(diffOff)
             chan.NewSlope.set(slope)
-            chan.NewSlopeDiff.set(diffSlope)
 
             chPass = True
-
-            if ( numpy.abs(numpy.abs(X) - self.expected_count) > self.count_tolerance ).any():
-                _log.info('Chan %d ADC values out of range %r', ch+1, X)
-                chPass = False
 
             if abs(offset) > self.offset_tolerance:
                 _log.info('Chan %d offset too large %r', ch+1, offset)
                 chPass = False
 
-            if abs(slope - self.expected_slope) > self.slope_tolerance:
-                _log.info('Chan %d slope out of range %r', ch+1, slope)
+            serr = (slope - self.expected_gain)/self.expected_gain
+
+            if numpy.abs(serr) > self.slope_tolerance/100:
+                _log.info('Chan %d slope out of range %r (%r)', ch+1, slope, serr)
                 chPass = False
 
             chan.NewStatus.set(3 if chPass else 2)
@@ -240,9 +264,7 @@ def reset_status():
     for chan in pv_chan:
         chan.NewStatus.set(0)
         chan.NewSlope.set(math.nan)
-        chan.NewSlopeDiff.set(math.nan)
         chan.NewOff.set(math.nan)
-        chan.NewOffDiff.set(math.nan)
 
 def update_chassis_sel():
     reset_status()
@@ -268,20 +290,25 @@ def run_calibration(chassis):
         for chan in pv_chan:
             chan.NewStatus.set(1) # Running
 
+        report_status('Connect AFG/DMM')
         C = CalibProcess(chassis)
         C.connect_dmm_afg()
 
+        report_status('Step positive')
         C.set_afg(9.0)
-        adcPos = C.query_adc() # [32]
-        dmmPos = C.dmm_read() # scalar
+        adcPos = C.query_adc(9.0) # [32]
+        dmmPos = C.dmm_read(9.0) # scalar
 
+        report_status('Step negative')
         C.set_afg(-9.0)
-        adcNeg = C.query_adc() # [32]
-        dmmNeg = C.dmm_read() # scalar
+        adcNeg = C.query_adc(-9.0) # [32]
+        dmmNeg = C.dmm_read(-9.0) # scalar
 
+        report_status('Computing')
         C.compute_calib(dmmPos, dmmNeg, adcPos, adcNeg)
         C.write_raw(dmmPos, dmmNeg, adcPos, adcNeg)
     except:
+        _log.exception("calib fails")
         pv_status.set(2)
         raise
     else:
@@ -289,6 +316,10 @@ def run_calibration(chassis):
         report_status('Success')
     finally:
         _log.debug('End Chassis %d start calibration', chassis)
+        try:
+            C.set_afg(0)
+        except:
+            _log.exception("Failed to zero AFG on completion")
 
 def write_calib(chassis, now):
     'Write "raw" calibration file'
@@ -369,10 +400,18 @@ def commit_calibration(chassis):
 
 def getargs():
     parser = argparse.ArgumentParser(description='ATF Calibration IOC')
-    parser.add_argument('-f', '--faddr', help='Specify function generator IP addr')
-    parser.add_argument('-fp', '--fport', help='Specify function generator SCPI port')
-    parser.add_argument('-v', '--vaddr', help='Specify voltmeter IP addr')
-    parser.add_argument('-vp', '--vport', help='Specify voltmeter SCPI port')
+    parser.add_argument('-f', '--faddr',
+                        default='192.168.83.48',
+                        help='Specify function generator IP addr')
+    parser.add_argument('-fp', '--fport',
+                        type=int, default=5025,
+                        help='Specify function generator SCPI port')
+    parser.add_argument('-v', '--vaddr',
+                        default='192.168.83.47',
+                        help='Specify voltmeter IP addr')
+    parser.add_argument('-vp', '--vport',
+                        type=int, default=5025,
+                        help='Specify voltmeter SCPI port')
     parser.add_argument('--prefix', default='FDAS:Calib',
                         help='PV name prefix')
     return parser
@@ -381,26 +420,8 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     args = getargs().parse_args()
 
-    if args.faddr:
-        afg_ip = args.faddr
-    else:
-        afg_ip = afg_addr[0]
-    if args.fport:
-        afg_port = args.fport
-    else:
-        afg_port = afg_addr[1]
-
-    if args.vaddr:
-        dmm_ip = args.vaddr
-    else:
-        dmm_ip = dmm_addr[0]
-    if args.vport:
-        dmm_port = args.vport
-    else:
-        dmm_port = dmm_addr[1]
-
-    afg_addr = (afg_ip, afg_port)
-    dmm_addr = (dmm_ip, dmm_port)
+    afg_addr = (args.faddr, args.fport)
+    dmm_addr = (args.vaddr, args.vport)
 
     # Set up pvs
     builder.SetDeviceName(args.prefix)
@@ -424,6 +445,11 @@ if __name__ == '__main__':
     pv_dmm_fw = builder.stringIn('dmm:fw')
     pv_dmm_sn = builder.stringIn('dmm:serno')
     pv_adc_sn = builder.stringOut('adc:serno', OMSL='closed_loop')
+    pv_samp_rate = builder.longOut(
+        'fsamp',
+        OMSL='closed_loop',
+        DOL='FDAS:ACQ:rate.RVAL CP MSS',
+    )
 
     def validate_chassis(pv, val):
         return val in range(1, 33)
@@ -459,14 +485,14 @@ if __name__ == '__main__':
             NewADC1=builder.longIn(f'ch{chan:02d}:new:adc:1'),
             NewADC2=builder.longIn(f'ch{chan:02d}:new:adc:2'),
             NewSlope=builder.aIn(f'ch{chan:02d}:new:slope', PREC=6),
-            NewOff=builder.aIn(f'ch{chan:02d}:new:slope:diff', PREC=3, EGU='%'),
-            NewSlopeDiff=builder.aIn(f'ch{chan:02d}:new:offset', PREC=2),
-            NewOffDiff=builder.aIn(f'ch{chan:02d}:new:offset:diff', PREC=3, EGU='%'),
+            NewOff=builder.aIn(f'ch{chan:02d}:new:offset', PREC=3),
         ))
 
     # set up the ioc
     builder.LoadDatabase()
     softioc.iocInit()
+
+    ctxt = Context(nt=False)  # PVA client
 
     def loop():
         _log.debug('loop start')
