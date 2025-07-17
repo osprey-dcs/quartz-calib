@@ -60,7 +60,6 @@ class CalibProcess:
         self.chassis = chassis
         self.now = datetime.now()
 
-## softioc bug. circa 4.6.1.  "soft" record with OMSL/DOL alreadys reports UDF_ALARM (does clear .UDF)
         for rec in (pv_samp_rate, pv_adc_sn):
             sevr = rec.get_field('SEVR')
             if sevr!='NO_ALARM':
@@ -444,11 +443,12 @@ if __name__ == '__main__':
     pv_dmm_modl = builder.stringIn('dmm:model')
     pv_dmm_fw = builder.stringIn('dmm:fw')
     pv_dmm_sn = builder.stringIn('dmm:serno')
-    pv_adc_sn = builder.stringOut('adc:serno', OMSL='closed_loop')
+    pv_adc_sn = builder.stringOut('adc:serno', OMSL='closed_loop', initial_value="")
     pv_samp_rate = builder.longOut(
         'fsamp',
         OMSL='closed_loop',
         DOL=f'{args.prefix}ACQ:rate.RVAL CP MSS',
+        initial_value=0,
     )
 
     def validate_chassis(pv, val):
@@ -473,9 +473,9 @@ if __name__ == '__main__':
     pv_chan = []
     for chan in range(1, 33):
         pv_chan.append(PerChanT(
-            PrevTCAL=builder.stringOut(f'ch{chan:02d}:prev:TCAL', OMSL='closed_loop'),
-            PrevSlope=builder.aOut(f'ch{chan:02d}:prev:slope', OMSL='closed_loop', PREC=6),
-            PrevOff=builder.aOut(f'ch{chan:02d}:prev:offset', OMSL='closed_loop', PREC=2),
+            PrevTCAL=builder.stringOut(f'ch{chan:02d}:prev:TCAL', OMSL='closed_loop', initial_value=""),
+            PrevSlope=builder.aOut(f'ch{chan:02d}:prev:slope', OMSL='closed_loop', PREC=6, initial_value=0),
+            PrevOff=builder.aOut(f'ch{chan:02d}:prev:offset', OMSL='closed_loop', PREC=2, initial_value=0),
             NewStatus=builder.mbbIn(f'ch{chan:02d}:new:status',
                                  'Idle',
                                  ('Run', alarm.MINOR_ALARM),
