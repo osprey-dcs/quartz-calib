@@ -149,7 +149,7 @@ class CalibProcess:
         nskip = 4
 
         updateQ = cothread.EventQueue(max_length=nskip*2)
-        with ctxt.monitor(f'FDAS:{self.chassis:02d}:SA:V', updateQ.Signal):
+        with ctxt.monitor(f'{args.prefix}{self.chassis:02d}:SA:V', updateQ.Signal):
             try:
                 for _n in range(nskip):
                     updateQ.Wait(timeout=3) # wait for and discard initial update
@@ -271,13 +271,13 @@ def update_chassis_sel():
     chassis = pv_chassis_sel.get()
     _log.info('Chassis %d selected', chassis)
 
-    pv_adc_sn.set_field('DOL', f'FDAS:{chassis:02d}:Quartz:serno CP MSS')
+    pv_adc_sn.set_field('DOL', f'{args.prefix}{chassis:02d}:Quartz:serno CP MSS')
 
     # setup links to previous
     for i,chan in enumerate(pv_chan, 1):
-        chan.PrevTCAL.set_field('DOL', f'FDAS:{chassis:02d}:SA:Ch{i:02d}:LASTCAL CP MSS')
-        chan.PrevSlope.set_field('DOL', f'FDAS:{chassis:02d}:SA:Ch{i:02d}:ASLO CP MSS')
-        chan.PrevOff.set_field('DOL', f'FDAS:{chassis:02d}:SA:Ch{i:02d}:AOFF CP MSS')
+        chan.PrevTCAL.set_field('DOL', f'{args.prefix}{chassis:02d}:SA:Ch{i:02d}:LASTCAL CP MSS')
+        chan.PrevSlope.set_field('DOL', f'{args.prefix}{chassis:02d}:SA:Ch{i:02d}:ASLO CP MSS')
+        chan.PrevOff.set_field('DOL', f'{args.prefix}{chassis:02d}:SA:Ch{i:02d}:AOFF CP MSS')
 
     pv_chassis_rb.set(chassis)
 
@@ -377,9 +377,9 @@ def put_calib(chassis, now):
     for n, chan in enumerate(pv_chan, 1):
         offset, slope, status = chan.NewOff.get(), chan.NewSlope.get(), chan.NewStatus.get()
         updates += [
-            (f'FDAS:{chassis:02d}:SA:Ch{n:02d}:ASLO', slope),
-            (f'FDAS:{chassis:02d}:SA:Ch{n:02d}:AOFF', offset),
-            (f'FDAS:{chassis:02d}:SA:Ch{n:02d}:TCAL', tcal if status==3 else 0),
+            (f'{args.prefix}{chassis:02d}:SA:Ch{n:02d}:ASLO', slope),
+            (f'{args.prefix}{chassis:02d}:SA:Ch{n:02d}:AOFF', offset),
+            (f'{args.prefix}{chassis:02d}:SA:Ch{n:02d}:TCAL', tcal if status==3 else 0),
         ]
 
     for name, val in updates:
@@ -412,7 +412,7 @@ def getargs():
     parser.add_argument('-vp', '--vport',
                         type=int, default=5025,
                         help='Specify voltmeter SCPI port')
-    parser.add_argument('--prefix', default='FDAS:Calib',
+    parser.add_argument('--prefix', default='FDAS:',
                         help='PV name prefix')
     return parser
 
@@ -424,7 +424,7 @@ if __name__ == '__main__':
     dmm_addr = (args.vaddr, args.vport)
 
     # Set up pvs
-    builder.SetDeviceName(args.prefix)
+    builder.SetDeviceName(f'{args.prefix}Calib')
 
     action_request = cothread.Event()
     def wakeup(_val):
@@ -448,7 +448,7 @@ if __name__ == '__main__':
     pv_samp_rate = builder.longOut(
         'fsamp',
         OMSL='closed_loop',
-        DOL='FDAS:ACQ:rate.RVAL CP MSS',
+        DOL=f'{args.prefix}ACQ:rate.RVAL CP MSS',
     )
 
     def validate_chassis(pv, val):
