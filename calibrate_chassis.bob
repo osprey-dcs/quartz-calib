@@ -24,7 +24,7 @@
   </widget>
   <widget type="combo" version="2.0.0">
     <name>Combo Box</name>
-    <pv_name>FDAS:Calib:chassis:sel</pv_name>
+    <pv_name>$(SYS)Calib:chassis:sel</pv_name>
     <x>180</x>
     <y>50</y>
     <width>70</width>
@@ -74,7 +74,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>FDAS:Calib:status_message</pv_name>
+    <pv_name>$(SYS)Calib:status_message</pv_name>
     <x>490</x>
     <y>228</y>
     <width>330</width>
@@ -84,7 +84,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>FDAS:Calib:status_time</pv_name>
+    <pv_name>$(SYS)Calib:status_time</pv_name>
     <x>320</x>
     <y>228</y>
     <width>160</width>
@@ -101,7 +101,7 @@
         <description>WritePV</description>
       </action>
     </actions>
-    <pv_name>FDAS:Calib:start</pv_name>
+    <pv_name>$(SYS)Calib:start</pv_name>
     <text>Calibration All</text>
     <x>180</x>
     <y>116</y>
@@ -116,7 +116,7 @@
         <description>WritePV</description>
       </action>
     </actions>
-    <pv_name>FDAS:Calib:commit</pv_name>
+    <pv_name>$(SYS)Calib:commit</pv_name>
     <text>Commit All</text>
     <x>180</x>
     <y>180</y>
@@ -149,7 +149,7 @@
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Text Entry</name>
-    <pv_name>FDAS:Calib:oper</pv_name>
+    <pv_name>$(SYS)Calib:oper</pv_name>
     <x>440</x>
     <y>50</y>
     <width>330</width>
@@ -195,7 +195,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>FDAS:Calib:chassis:cur</pv_name>
+    <pv_name>$(SYS)Calib:chassis:cur</pv_name>
     <x>260</x>
     <y>50</y>
     <width>40</width>
@@ -203,7 +203,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>FDAS:Calib:status</pv_name>
+    <pv_name>$(SYS)Calib:status</pv_name>
     <x>180</x>
     <y>228</y>
     <width>120</width>
@@ -225,7 +225,7 @@
     <transparent>true</transparent>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_4</name>
-      <pv_name>FDAS:Calib:dmm:manu</pv_name>
+      <pv_name>$(SYS)Calib:dmm:manu</pv_name>
       <x>120</x>
       <y>25</y>
       <width>330</width>
@@ -234,7 +234,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_5</name>
-      <pv_name>FDAS:Calib:dmm:model</pv_name>
+      <pv_name>$(SYS)Calib:dmm:model</pv_name>
       <x>120</x>
       <y>50</y>
       <width>330</width>
@@ -243,7 +243,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_6</name>
-      <pv_name>FDAS:Calib:dmm:fw</pv_name>
+      <pv_name>$(SYS)Calib:dmm:fw</pv_name>
       <x>120</x>
       <y>75</y>
       <width>330</width>
@@ -252,7 +252,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_7</name>
-      <pv_name>FDAS:Calib:dmm:serno</pv_name>
+      <pv_name>$(SYS)Calib:dmm:serno</pv_name>
       <x>120</x>
       <y>100</y>
       <width>330</width>
@@ -261,7 +261,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
-      <pv_name>FDAS:Calib:adc:serno</pv_name>
+      <pv_name>$(SYS)Calib:adc:serno</pv_name>
       <x>120</x>
       <width>330</width>
       <format>6</format>
