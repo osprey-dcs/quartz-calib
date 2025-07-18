@@ -17,6 +17,7 @@ PerChanT = namedtuple('PerChan', [
     'PrevTCAL', 'PrevSlope', 'PrevOff',
     'NewADC1', 'NewADC2',
     'NewStatus', 'NewSlope', 'NewOff',
+    'DiffSlope',
 ])
 
 num_adc_channels = 32
@@ -80,6 +81,8 @@ class CalibProcess:
             else:
                 _log.warn('Unable to lookup expected gain.  Use #2')
             self.expected_gain = self._gain_g2
+
+        pv_adc_gain.set(self.expected_gain)
 
     def connect_dmm_afg(self):
         _log.debug('Connecting to DMM @%r', dmm_addr)
@@ -223,6 +226,7 @@ class CalibProcess:
 
             chan.NewOff.set(offset)
             chan.NewSlope.set(slope)
+            chan.DiffSlope.set((self.expected_gain - slope)/self.expected_gain*100.0)
 
             chPass = True
 
@@ -255,6 +259,7 @@ Date and time: {self.now.strftime('%Y-%m-%d')} {self.now.strftime('%H:%M:%S')}
 DMM Model: {self.dmm_mfr} {self.dmm_mdl}
 DMM serial number: {self.dmm_sn}
 DMM firmware ver : {self.dmm_fw}
+ADC Ideal Slope : {self.expected_gain}
 Operator : {pv_oper.get() or 'Unspecified'}
 ch, volts, waveform
 ''')
@@ -276,10 +281,12 @@ def reset_status():
     pv_dmm_fw.set('')
     pv_dmm_sn.set('')
     pv_adc_sn.set('')
+    pv_adc_gain.set(0.0, severity=alarm.INVALID_ALARM, alarm=alarm.UDF_ALARM)
     for chan in pv_chan:
         chan.NewStatus.set(0)
         chan.NewSlope.set(math.nan)
         chan.NewOff.set(math.nan)
+        chan.DiffSlope.set(math.nan)
 
 def update_chassis_sel():
     reset_status()
@@ -347,7 +354,8 @@ def write_calib(chassis, now):
     outname = now.strftime('%Y-%m-%d_%H-%M-%S')
     outname = f'{outdir}/{outname}_cal_{chassis:02d}_bipolar_calc.csv'
 
-    samp_rate = CalibProcess(chassis).daq_rate
+    proc = CalibProcess(chassis)
+    samp_rate = proc.daq_rate
     oper = pv_oper.get() or 'Unspecified'
 
     if not os.path.exists(outdir):
@@ -360,6 +368,7 @@ Date and time: {now.strftime('%Y-%m-%d')} {now.strftime('%H:%M:%S')}
 DMM Model: {pv_dmm_manu.get()} {pv_dmm_modl.get()}
 DMM serial number: {pv_dmm_sn.get()}
 DMM firmware ver : {pv_dmm_fw.get()}
+ADC Ideal Slope : {proc.expected_gain}
 Operator : {oper}
 time, oper_id, samp_rate, adc_serno, dmm_mfr, dmm_sn, dmm_fw, chassis, ch, volts_1, volts_2, counts_1, counts_2,  slope, offset, result
 ''')
@@ -460,6 +469,7 @@ if __name__ == '__main__':
     pv_dmm_fw = builder.stringIn('dmm:fw')
     pv_dmm_sn = builder.stringIn('dmm:serno')
     pv_adc_sn = builder.stringOut('adc:serno', OMSL='closed_loop', initial_value="")
+    pv_adc_gain = builder.aIn('adc:gain', DESC='Ideal gain', EGU='V/ADC', PREC=6)
     pv_samp_rate = builder.longOut(
         'fsamp',
         OMSL='closed_loop',
@@ -502,6 +512,7 @@ if __name__ == '__main__':
             NewADC2=builder.longIn(f'ch{chan:02d}:new:adc:2'),
             NewSlope=builder.aIn(f'ch{chan:02d}:new:slope', PREC=6),
             NewOff=builder.aIn(f'ch{chan:02d}:new:offset', PREC=3),
+            DiffSlope=builder.aIn(f'ch{chan:02d}:diff:slope', PREC=2, EGU='%'),
         ))
 
     # set up the ioc
