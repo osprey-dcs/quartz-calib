@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-03-23 18:07:58 by atf-->
 <display version="2.0.0">
   <name>Calib</name>
-  <width>1535</width>
+  <width>1665</width>
   <height>821</height>
   <widget type="label" version="2.0.0">
     <name>Label</name>
@@ -76,7 +75,7 @@
     <name>Text Update_1</name>
     <pv_name>$(SYS)Calib:status_message</pv_name>
     <x>490</x>
-    <y>228</y>
+    <y>260</y>
     <width>330</width>
     <height>30</height>
     <format>6</format>
@@ -86,7 +85,7 @@
     <name>Text Update_2</name>
     <pv_name>$(SYS)Calib:status_time</pv_name>
     <x>320</x>
-    <y>228</y>
+    <y>260</y>
     <width>160</width>
     <height>30</height>
     <format>6</format>
@@ -96,9 +95,9 @@
     <name>Action Button_1</name>
     <actions>
       <action type="write_pv">
+        <description>WritePV</description>
         <pv_name>$(pv_name)</pv_name>
         <value>1</value>
-        <description>WritePV</description>
       </action>
     </actions>
     <pv_name>$(SYS)Calib:start</pv_name>
@@ -111,9 +110,9 @@
     <name>Action Button_2</name>
     <actions>
       <action type="write_pv">
+        <description>WritePV</description>
         <pv_name>$(pv_name)</pv_name>
         <value>1</value>
-        <description>WritePV</description>
       </action>
     </actions>
     <pv_name>$(SYS)Calib:commit</pv_name>
@@ -184,7 +183,7 @@
     <name>Label_25</name>
     <text>Process Status</text>
     <x>50</x>
-    <y>228</y>
+    <y>260</y>
     <width>120</width>
     <height>30</height>
     <font>
@@ -205,7 +204,7 @@
     <name>Text Update_3</name>
     <pv_name>$(SYS)Calib:status</pv_name>
     <x>180</x>
-    <y>228</y>
+    <y>260</y>
     <width>120</width>
     <height>30</height>
     <font>
@@ -215,88 +214,6 @@
     <format>6</format>
     <vertical_alignment>1</vertical_alignment>
   </widget>
-  <widget type="group" version="3.0.0">
-    <name>Group</name>
-    <x>320</x>
-    <y>90</y>
-    <width>500</width>
-    <height>120</height>
-    <style>3</style>
-    <transparent>true</transparent>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_4</name>
-      <pv_name>$(SYS)Calib:dmm:manu</pv_name>
-      <x>120</x>
-      <y>25</y>
-      <width>330</width>
-      <format>6</format>
-      <vertical_alignment>1</vertical_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_5</name>
-      <pv_name>$(SYS)Calib:dmm:model</pv_name>
-      <x>120</x>
-      <y>50</y>
-      <width>330</width>
-      <format>6</format>
-      <vertical_alignment>1</vertical_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_6</name>
-      <pv_name>$(SYS)Calib:dmm:fw</pv_name>
-      <x>120</x>
-      <y>75</y>
-      <width>330</width>
-      <format>6</format>
-      <vertical_alignment>1</vertical_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_7</name>
-      <pv_name>$(SYS)Calib:dmm:serno</pv_name>
-      <x>120</x>
-      <y>100</y>
-      <width>330</width>
-      <format>6</format>
-      <vertical_alignment>1</vertical_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_8</name>
-      <pv_name>$(SYS)Calib:adc:serno</pv_name>
-      <x>120</x>
-      <width>330</width>
-      <format>6</format>
-      <vertical_alignment>1</vertical_alignment>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_26</name>
-      <text>Quartz S/N</text>
-      <width>120</width>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_27</name>
-      <text>DMM Manu.</text>
-      <y>25</y>
-      <width>120</width>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_28</name>
-      <text>DMM Model</text>
-      <y>50</y>
-      <width>120</width>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_29</name>
-      <text>DMM FW</text>
-      <y>75</y>
-      <width>120</width>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_30</name>
-      <text>DMM S/N</text>
-      <y>100</y>
-      <width>120</width>
-    </widget>
-  </widget>
   <widget type="embedded" version="2.0.0">
     <name>Embedded Display_39</name>
     <macros>
@@ -304,8 +221,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>550</y>
-    <width>725</width>
+    <y>582</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -316,8 +233,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>580</y>
-    <width>725</width>
+    <y>612</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -328,8 +245,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>610</y>
-    <width>725</width>
+    <y>642</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -340,8 +257,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>640</y>
-    <width>725</width>
+    <y>672</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -352,8 +269,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>670</y>
-    <width>725</width>
+    <y>702</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -364,8 +281,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>700</y>
-    <width>725</width>
+    <y>732</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -376,8 +293,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>730</y>
-    <width>725</width>
+    <y>762</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -388,8 +305,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>760</y>
-    <width>725</width>
+    <y>792</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -400,8 +317,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>790</y>
-    <width>725</width>
+    <y>822</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -411,9 +328,9 @@
       <CH>17</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>340</y>
-    <width>725</width>
+    <x>860</x>
+    <y>372</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -423,9 +340,9 @@
       <CH>18</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>370</y>
-    <width>725</width>
+    <x>860</x>
+    <y>402</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -435,9 +352,9 @@
       <CH>19</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>400</y>
-    <width>725</width>
+    <x>860</x>
+    <y>432</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -447,9 +364,9 @@
       <CH>20</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>430</y>
-    <width>725</width>
+    <x>860</x>
+    <y>462</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -459,9 +376,9 @@
       <CH>21</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>460</y>
-    <width>725</width>
+    <x>860</x>
+    <y>492</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -471,9 +388,9 @@
       <CH>22</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>490</y>
-    <width>725</width>
+    <x>860</x>
+    <y>522</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -483,9 +400,9 @@
       <CH>23</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>520</y>
-    <width>725</width>
+    <x>860</x>
+    <y>552</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -495,9 +412,9 @@
       <CH>24</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>550</y>
-    <width>725</width>
+    <x>860</x>
+    <y>582</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -507,9 +424,9 @@
       <CH>25</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>580</y>
-    <width>725</width>
+    <x>860</x>
+    <y>612</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -519,9 +436,9 @@
       <CH>26</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>610</y>
-    <width>725</width>
+    <x>860</x>
+    <y>642</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -531,9 +448,9 @@
       <CH>27</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>640</y>
-    <width>725</width>
+    <x>860</x>
+    <y>672</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -543,9 +460,9 @@
       <CH>28</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>670</y>
-    <width>725</width>
+    <x>860</x>
+    <y>702</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -555,9 +472,9 @@
       <CH>29</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>700</y>
-    <width>725</width>
+    <x>860</x>
+    <y>732</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -567,9 +484,9 @@
       <CH>30</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>730</y>
-    <width>725</width>
+    <x>860</x>
+    <y>762</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -579,9 +496,9 @@
       <CH>31</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>760</y>
-    <width>725</width>
+    <x>860</x>
+    <y>792</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -591,9 +508,9 @@
       <CH>32</CH>
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
-    <x>810</x>
-    <y>790</y>
-    <width>725</width>
+    <x>860</x>
+    <y>822</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -601,7 +518,7 @@
     <name>Label_8</name>
     <text>Status</text>
     <x>490</x>
-    <y>310</y>
+    <y>342</y>
     <width>60</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -612,7 +529,7 @@
     <name>Label_11</name>
     <text>Date</text>
     <x>120</x>
-    <y>310</y>
+    <y>342</y>
     <width>140</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -623,7 +540,7 @@
     <name>Label_1</name>
     <text>New Calib.</text>
     <x>490</x>
-    <y>280</y>
+    <y>312</y>
     <width>120</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -638,7 +555,7 @@
     <name>Label_2</name>
     <text>Current Calib.</text>
     <x>120</x>
-    <y>280</y>
+    <y>312</y>
     <width>120</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -653,7 +570,7 @@
     <name>Label_10</name>
     <text>Slope (V/ADC)</text>
     <x>270</x>
-    <y>310</y>
+    <y>342</y>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -663,7 +580,7 @@
     <name>Label_12</name>
     <text>Offset (V)</text>
     <x>380</x>
-    <y>310</y>
+    <y>342</y>
     <width>90</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -673,8 +590,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_13</name>
     <text>Offset (V)</text>
-    <x>670</x>
-    <y>310</y>
+    <x>750</x>
+    <y>342</y>
     <width>90</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -685,7 +602,7 @@
     <name>Label_14</name>
     <text>Slope (V/ADC)</text>
     <x>560</x>
-    <y>310</y>
+    <y>342</y>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -698,8 +615,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>340</y>
-    <width>725</width>
+    <y>372</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -710,8 +627,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>370</y>
-    <width>725</width>
+    <y>402</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -722,8 +639,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>400</y>
-    <width>725</width>
+    <y>432</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -734,8 +651,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>430</y>
-    <width>725</width>
+    <y>462</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -746,8 +663,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>460</y>
-    <width>725</width>
+    <y>492</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -758,8 +675,8 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>490</y>
-    <width>725</width>
+    <y>522</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
@@ -770,31 +687,29 @@
     </macros>
     <file>_calibrate_chassis_channel.bob</file>
     <x>40</x>
-    <y>520</y>
-    <width>725</width>
+    <y>552</y>
+    <width>805</width>
     <height>30</height>
     <resize>2</resize>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline</name>
     <x>50</x>
-    <y>339</y>
-    <width>710</width>
+    <y>371</y>
+    <width>790</width>
     <height>1</height>
     <points>
       <point x="0.0" y="0.0">
       </point>
-      <point x="710.0" y="0.0">
-      </point>
-      <point x="710.0" y="0.0">
+      <point x="790.0" y="1.0">
       </point>
     </points>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_32</name>
     <text>Status</text>
-    <x>1260</x>
-    <y>310</y>
+    <x>1310</x>
+    <y>342</y>
     <width>60</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -804,8 +719,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_33</name>
     <text>Date</text>
-    <x>890</x>
-    <y>310</y>
+    <x>940</x>
+    <y>342</y>
     <width>140</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -815,8 +730,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_34</name>
     <text>New Calib.</text>
-    <x>1260</x>
-    <y>280</y>
+    <x>1310</x>
+    <y>312</y>
     <width>120</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -830,8 +745,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_35</name>
     <text>Current Calib.</text>
-    <x>890</x>
-    <y>280</y>
+    <x>940</x>
+    <y>312</y>
     <width>120</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -845,8 +760,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_36</name>
     <text>Slope (V/ADC)</text>
-    <x>1040</x>
-    <y>310</y>
+    <x>1090</x>
+    <y>342</y>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -855,8 +770,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_37</name>
     <text>Offset (V)</text>
-    <x>1150</x>
-    <y>310</y>
+    <x>1200</x>
+    <y>342</y>
     <width>90</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -866,8 +781,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_38</name>
     <text>Offset (V)</text>
-    <x>1440</x>
-    <y>310</y>
+    <x>1570</x>
+    <y>342</y>
     <width>90</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -877,8 +792,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_39</name>
     <text>Slope (V/ADC)</text>
-    <x>1330</x>
-    <y>310</y>
+    <x>1380</x>
+    <y>342</y>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -886,16 +801,14 @@
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_1</name>
-    <x>820</x>
-    <y>339</y>
-    <width>710</width>
+    <x>870</x>
+    <y>371</y>
+    <width>790</width>
     <height>1</height>
     <points>
       <point x="0.0" y="0.0">
       </point>
-      <point x="710.0" y="0.0">
-      </point>
-      <point x="710.0" y="0.0">
+      <point x="790.0" y="1.0">
       </point>
     </points>
   </widget>
@@ -903,7 +816,7 @@
     <name>Label_40</name>
     <text>Chan.</text>
     <x>44</x>
-    <y>310</y>
+    <y>342</y>
     <width>60</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -913,8 +826,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_41</name>
     <text>Chan.</text>
-    <x>814</x>
-    <y>310</y>
+    <x>864</x>
+    <y>342</y>
     <width>60</width>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
@@ -924,31 +837,149 @@
   <widget type="polyline" version="2.0.0">
     <name>Polyline_2</name>
     <x>50</x>
-    <y>820</y>
-    <width>710</width>
+    <y>852</y>
+    <width>790</width>
     <height>1</height>
     <points>
       <point x="0.0" y="0.0">
       </point>
-      <point x="710.0" y="0.0">
-      </point>
-      <point x="710.0" y="0.0">
+      <point x="790.0" y="0.0">
       </point>
     </points>
   </widget>
   <widget type="polyline" version="2.0.0">
     <name>Polyline_3</name>
-    <x>820</x>
-    <y>820</y>
-    <width>710</width>
+    <x>870</x>
+    <y>852</y>
+    <width>790</width>
     <height>1</height>
     <points>
       <point x="0.0" y="0.0">
       </point>
-      <point x="710.0" y="0.0">
-      </point>
-      <point x="710.0" y="0.0">
+      <point x="790.0" y="0.0">
       </point>
     </points>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_4</name>
+    <pv_name>$(SYS)Calib:dmm:manu</pv_name>
+    <x>440</x>
+    <y>140</y>
+    <width>330</width>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_5</name>
+    <pv_name>$(SYS)Calib:dmm:model</pv_name>
+    <x>440</x>
+    <y>165</y>
+    <width>330</width>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_6</name>
+    <pv_name>$(SYS)Calib:dmm:fw</pv_name>
+    <x>440</x>
+    <y>190</y>
+    <width>330</width>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_7</name>
+    <pv_name>$(SYS)Calib:dmm:serno</pv_name>
+    <x>440</x>
+    <y>215</y>
+    <width>330</width>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_8</name>
+    <pv_name>$(SYS)Calib:adc:serno</pv_name>
+    <x>440</x>
+    <y>90</y>
+    <width>330</width>
+    <format>6</format>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_26</name>
+    <text>Quartz S/N</text>
+    <x>320</x>
+    <y>90</y>
+    <width>120</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_27</name>
+    <text>DMM Manu.</text>
+    <x>320</x>
+    <y>140</y>
+    <width>120</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_28</name>
+    <text>DMM Model</text>
+    <x>320</x>
+    <y>165</y>
+    <width>120</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_29</name>
+    <text>DMM FW</text>
+    <x>320</x>
+    <y>190</y>
+    <width>120</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_30</name>
+    <text>DMM S/N</text>
+    <x>320</x>
+    <y>215</y>
+    <width>120</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_9</name>
+    <pv_name>$(SYS)Calib:adc:gain</pv_name>
+    <x>440</x>
+    <y>115</y>
+    <width>330</width>
+    <format>3</format>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_31</name>
+    <text>Ideal Slope</text>
+    <x>320</x>
+    <y>115</y>
+    <width>120</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_42</name>
+    <text>Diff from
+Ideal</text>
+    <x>670</x>
+    <y>332</y>
+    <width>70</width>
+    <height>30</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="12.0">
+      </font>
+    </font>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_43</name>
+    <text>Diff from
+Ideal</text>
+    <x>1490</x>
+    <y>332</y>
+    <width>70</width>
+    <height>30</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="12.0">
+      </font>
+    </font>
   </widget>
 </display>

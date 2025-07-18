@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2025-03-23 15:45:07 by atf-->
 <display version="2.0.0">
   <name>cal chan $(CH)</name>
-  <width>725</width>
+  <width>805</width>
   <height>30</height>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
@@ -36,7 +35,7 @@
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
     <pv_name>$(SYS)Calib:ch$(CH):new:offset</pv_name>
-    <x>630</x>
+    <x>710</x>
     <y>5</y>
     <width>90</width>
     <format>3</format>
@@ -66,5 +65,13 @@
       <point x="0.0" y="0.0">
       </point>
     </points>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_2</name>
+    <pv_name>$(SYS)Calib:ch$(CH):diff:slope</pv_name>
+    <x>630</x>
+    <y>5</y>
+    <width>70</width>
+    <format>1</format>
   </widget>
 </display>
