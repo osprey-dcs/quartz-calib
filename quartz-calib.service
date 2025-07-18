@@ -1,0 +1,23 @@
+[Unit]
+Description=ADC calibration engine
+After=network.target
+Wants=network.target
+
+[Service]
+ExecStart=/usr/local/epics/usr/bin/procServ \
+  --foreground --logfile - --name calib \
+  --chdir /data/calib \
+  --info-file %t/%n/info \
+  --port 0 \
+  --port unix:%t/%n/control \
+  /opt/quartz-calib/env/bin/python \
+   /opt/quartz-calib/calibrationIoc.py \
+    --prefix MDAS:
+
+RuntimeDirectory=%n
+
+User=softioc
+Group=softioc
+
+[Install]
+WantedBy=multi-user.target
