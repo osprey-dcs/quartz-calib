@@ -95,17 +95,25 @@ class CalibProcess:
         _log.debug('DMM info %r', msg)
         self.dmm_mfr, self.dmm_mdl, self.dmm_sn, self.dmm_fw = msg.split(',')[:4]
 
+        # configure DMM for DC voltage measurement.
+        # set longer integration period.  Default 10
+        self.dmm_sock.sendall(b'*RST\n')
+        self.dmm_sock.sendall(b'CONF:VOLT:DC\n')
+        self.dmm_sock.sendall(b'VOLT:NPLC 100\n')
+        self.dmm_sock.sendall(b'CONF?\n')
+        dmm_conf = self.dmm_rx.readline()
+        # ensure input stream is synchronized
+        assert dmm_conf.startswith(b'"VOLT '), dmm_conf # yes, the output line is really quoted...
+
         # grab AFG info
         self.afg_sock.sendall(b'*IDN?\n')
         msg = self.afg_rx.readline(1024)
-        _log.debug('DMM info %r', msg)
-
-        # set DMM to longer integration period.  Default 10
-        self.dmm_sock.sendall(b'VOLT:NPLC 100\n')
+        _log.debug('AFG info %r', msg)
 
         # Zero AFG and set to high Z output
-        self.set_afg(0.0)
+        self.afg_sock.sendall(b'*RST\n')
         self.afg_sock.sendall(b'OUTPUT1:LOAD INF\n')
+        self.set_afg(0.0)
 
         pv_dmm_manu.set(self.dmm_mfr)
         pv_dmm_modl.set(self.dmm_mdl)
@@ -113,10 +121,18 @@ class CalibProcess:
         pv_dmm_sn.set(self.dmm_sn)
 
     def set_afg(self, v):
-        self.afg_sock.sendall(f'APPL:DC DEF, DEF, {v:.1f}\n'.encode())
-        # query AFG in lieu of an actual way to ensure the output has settled
-        rbV = self._query_afg()
-        assert abs(v-rbV)<0.001, (v, rbV)
+        if v is None:
+            # disable output and zero setting
+            self.afg_sock.sendall(b'OUTP OFF\n')
+            self.afg_sock.sendall(b'VOLT:OFFS 0\n')
+            self.afg_sock.sendall(b'OUTP?\n') # returns 0 or 1
+            out_state = self.afg_rx.readline(1024).strip()
+            assert out_state==b"0", out_state
+        else:
+            self.afg_sock.sendall(f'APPL:DC DEF, DEF, {v:.1f}\n'.encode())
+            # query AFG in lieu of an actual way to ensure the output has settled
+            rbV = self._query_afg()
+            assert abs(v-rbV)<0.001, (v, rbV)
 
     def _query_afg(self):
         self.afg_sock.sendall(b'APPL?\n')
@@ -316,7 +332,7 @@ def run_calibration(chassis):
     finally:
         _log.debug('End Chassis %d start calibration', chassis)
         try:
-            C.set_afg(0)
+            C.set_afg(None) # disable output
         except:
             _log.exception("Failed to zero AFG on completion")
 
@@ -463,7 +479,7 @@ if __name__ == '__main__':
                                             on_update=wakeup,
                                            ZNAM='Idle', ONAM='Run')
     pv_status_timedate = builder.stringIn('status_time')
-    pv_status_message = builder.stringOut('status_message', initial_value='Startup')
+    pv_status_message = builder.stringIn('status_message', initial_value='Startup')
     pv_dmm = (
         builder.aIn('dmm:1'),
         builder.aIn('dmm:2'),
