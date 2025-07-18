@@ -32,8 +32,8 @@ def report_status(message):
     pv_status_message.set(message[:39])
 
 class CalibProcess:
-    offset_tolerance = .01 # [V] largest offset we tolerate (we expect zero as offset)
-    slope_tolerance = 2.0  # [%] allowed gain deviation from nominal
+    offset_tolerance = 0.002 # [V] largest offset we tolerate (we expect zero as offset)
+    slope_tolerance = 0.1  # [%] allowed gain deviation from nominal
 
     # Nominal scaling from ADC counts to volts in terms of op-amp gain set resister (R_g)
     # and ADC reference voltages (V_ref).
