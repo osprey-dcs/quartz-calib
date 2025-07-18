@@ -462,7 +462,7 @@ if __name__ == '__main__':
     pv_commit_calibration = builder.boolOut('commit', initial_value=0,
                                             on_update=wakeup,
                                            ZNAM='Idle', ONAM='Run')
-    pv_status_timedate = builder.stringOut('status_time')
+    pv_status_timedate = builder.stringIn('status_time')
     pv_status_message = builder.stringOut('status_message', initial_value='Startup')
     pv_dmm = (
         builder.aIn('dmm:1'),
